@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_centerVertical="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+
+
+
+    <ImageView
+        android:id="@+id/imageViewCT"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_launcher_foreground"
+        />
+
+    <TextView
+        android:id="@+id/textViewNameContactCT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/imageViewCT"
+        android:textSize="25dp"
+        android:text="name" />
+
+    <TextView
+        android:id="@+id/textViewPhoneNumberCT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageViewCT"
+        android:layout_toRightOf="@+id/imageViewCT"
+        android:textSize="25dp"
+        android:text="phone" />
+
+</RelativeLayout>
