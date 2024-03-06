@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity
         //
         MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this);
         mViewPager2.setAdapter(myViewPagerAdapter);
+//        mViewPager2.setUserInputEnabled(true);
 
         mBottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();

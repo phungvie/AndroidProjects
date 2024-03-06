@@ -1,5 +1,7 @@
 package com.example.lap2_end.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 public class ChiTiet extends Fragment {
     private View mView;
     ListView mListView;
+
     Contact viet;
 
     @Override
@@ -31,6 +35,7 @@ public class ChiTiet extends Fragment {
 
         //
         mListView = mView.findViewById(R.id.listView);
+
         //
 
         //
@@ -41,6 +46,7 @@ public class ChiTiet extends Fragment {
         MyAdapter myAdapter = new MyAdapter(getContext(), R.layout.layout_item_chi_tiet, data);
         mListView.setAdapter(myAdapter);
 
+        myAdapter.notifyDataSetChanged();
         mListView.setOnItemClickListener((parent, view, position, id) -> {
 
             if (viet!=null) {
@@ -54,6 +60,8 @@ public class ChiTiet extends Fragment {
 
 
         });
+
+
 
         return mView;
     }
