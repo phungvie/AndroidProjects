@@ -28,6 +28,8 @@ public class MyAdapter extends ArrayAdapter<Contact> {
         this.context=context;
         this.layoutResource=resource;
         this.contacts=objects;
+        //viet
+
     }
 
 
