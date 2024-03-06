@@ -7,6 +7,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.lap2_end.fragment.ChiTiet;
 import com.example.lap2_end.fragment.Sua;
+import com.example.lap2_end.fragment.UserFragment;
 
 
 public class MyViewPagerAdapter extends FragmentStateAdapter {
@@ -24,8 +25,6 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
                 return new ChiTiet();
             default:
                 return new Sua();
-
-
         }
     }
 

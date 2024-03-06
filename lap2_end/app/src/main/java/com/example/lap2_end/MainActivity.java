@@ -40,9 +40,10 @@ public class MainActivity extends AppCompatActivity
         mBottomNavigationView = findViewById(R.id.bottom_navigation);
         //
         data = new ArrayList<>();
-        data.add(new Contact(1, "viet", "09876...", true, Contact.imgViet));
-        data.add(new Contact(2, "cuong", "092876...", false, Contact.imgViet));
-        data.add(new Contact(3, "luyen", "094875...", true, Contact.imgViet));
+        data.add(new Contact(1, "viet", "0987635432", true, Contact.imgViet));
+        data.add(new Contact(2, "cuong", "0928765432", false, Contact.imgViet));
+        data.add(new Contact(3, "luyen", "0948755432", true, Contact.imgViet));
+        data.add(new Contact(4, "minh", "0934555432", false, Contact.imgViet));
         //
         setSupportActionBar(mToolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
@@ -58,8 +59,10 @@ public class MainActivity extends AppCompatActivity
         mBottomNavigationView.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.bottom_home) {
+                getSupportFragmentManager().popBackStack();
                 mViewPager2.setCurrentItem(0);
             } else if (id == R.id.bottom_search) {
+                getSupportFragmentManager().popBackStack();
                 mViewPager2.setCurrentItem(1);
             }
             return true;
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity
                 switch (position) {
                     case 0:
                         mBottomNavigationView.getMenu().findItem(R.id.bottom_home).setChecked(true);
+//                        mToolbar.setTitle(R.string.close);
                         break;
                     case 1:
                         mBottomNavigationView.getMenu().findItem(R.id.bottom_search).setChecked(true);
@@ -90,8 +94,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.bottom_home) {
+            getSupportFragmentManager().popBackStack();
             mViewPager2.setCurrentItem(0);
         } else if (id == R.id.bottom_search) {
+            getSupportFragmentManager().popBackStack();
             mViewPager2.setCurrentItem(1);
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
