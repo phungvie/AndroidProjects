@@ -20,8 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener
-{
+        implements NavigationView.OnNavigationItemSelectedListener {
     private ActivityMainBinding binding;
 
     @Override
@@ -32,17 +31,18 @@ public class MainActivity extends AppCompatActivity
         setContentView(binding.getRoot());
 //
         DrawerLayout mDrawerLayout = binding.drawerLayout;
-        Toolbar mToolbar=binding.toolbar;
+        Toolbar mToolbar = binding.toolbar;
 
         setSupportActionBar(binding.toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
+                R.string.open, R.string.close);
 
         binding.drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView mNavigationView=binding.navView;
+        NavigationView mNavigationView = binding.navView;
         mNavigationView.setNavigationItemSelectedListener(this);
-
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //
         MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this);
         binding.viewPager2.setAdapter(myViewPagerAdapter);
@@ -90,17 +90,25 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.bottom_home) {
-            binding.viewPager2.setCurrentItem(0);
-        } else if (id == R.id.bottom_search) {
-            binding.viewPager2.setCurrentItem(1);
-        } else if (id == R.id.bottom_library) {
-            binding.viewPager2.setCurrentItem(2);
-        } else if (id == R.id.bottom_premium) {
-            binding.viewPager2.setCurrentItem(3);
+        if (id == R.id.bottom_inf_user) {
+            binding.viewPager2.setCurrentItem(4);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Toast.makeText(this, "vietdZas", Toast.LENGTH_SHORT).show();
+                return true;
+
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

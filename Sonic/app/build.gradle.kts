@@ -71,6 +71,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.12")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 

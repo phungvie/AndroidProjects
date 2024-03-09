@@ -21,10 +21,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mvView = inflater.inflate(R.layout.fragment_home, container, false);
-        String name = DataLocalManager.getInstance().getName();
 
-        TextView mTextViewName = mvView.findViewById(R.id.textViewName);
-        mTextViewName.setText(name);
         return mvView;
     }
 }

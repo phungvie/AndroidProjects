@@ -4,6 +4,8 @@
     <string name="search">Tìm kiếm</string>
     <string name="lib">Thư viện</string>
     <string name="premium">Premium</string>
+    <string name="infUser">Thông tin chi tiết người dùng</string>
+
     <string name="title_activity_login">LoginActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
