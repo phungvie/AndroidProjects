@@ -13,4 +13,10 @@
         android:text="lib"
         android:textColor="@color/white"
         />
+
+    <ListView
+        android:id="@+id/list_view_lib"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 </LinearLayout>

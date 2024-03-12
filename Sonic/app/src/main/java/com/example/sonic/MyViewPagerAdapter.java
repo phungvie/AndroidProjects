@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.sonic.fragment.HomeFragment;
-import com.example.sonic.fragment.InfUserFragment;
 import com.example.sonic.fragment.LibraryFragment;
 import com.example.sonic.fragment.PremiumFragment;
 import com.example.sonic.fragment.SearchFragment;
@@ -28,8 +27,6 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
                 return new LibraryFragment();
             case 3:
                 return new PremiumFragment();
-            case 4:
-                return new InfUserFragment();
             default:
                 return new HomeFragment();
 
@@ -39,6 +36,6 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 4;
     }
 }

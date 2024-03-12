@@ -8,8 +8,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -91,24 +95,35 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.bottom_inf_user) {
-            binding.viewPager2.setCurrentItem(4);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            binding.viewPager2.setCurrentItem(4);
+
+            Intent mIntent=new Intent(this,InfUserActivity.class);
+            startActivity(mIntent);
+
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                Toast.makeText(this, "vietdZas", Toast.LENGTH_SHORT).show();
+//                return true;
+//
+//
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                Toast.makeText(this, "vietdZas", Toast.LENGTH_SHORT).show();
-                return true;
-
-
-        }
-
-        return super.onOptionsItemSelected(item);
+    public boolean onSupportNavigateUp() {
+        // Điều hướng ngược lại (navigate up) khi bấm nút quay trở lại
+        binding.viewPager2.setCurrentItem(0);
+        return true;
     }
+
 
 }

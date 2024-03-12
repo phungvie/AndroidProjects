@@ -35,10 +35,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    />
+
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/view_pager_2"
                 android:layout_width="match_parent"
@@ -53,9 +50,12 @@
                 app:backgroundTint="@color/black0"
                 app:itemHorizontalTranslationEnabled="false"
                 app:itemIconTint="@color/custom_color_bottom"
-                app:itemTextColor="@color/white"
+                app:itemRippleColor="@color/primaryColor"
 
-                app:menu="@menu/menu_bottom_nav" />
+                app:itemTextColor="@color/white"
+                app:menu="@menu/menu_bottom_nav"
+
+                />
         </RelativeLayout>
 
         <!--           app:labelVisibilityMode="labeled"
