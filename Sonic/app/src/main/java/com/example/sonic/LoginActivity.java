@@ -16,6 +16,7 @@ import com.example.sonic.network.model.LoginRequest;
 import com.example.sonic.network.model.TokenLogin;
 import com.example.sonic.network.model.UserDTO;
 import com.example.sonic.network.remote.APIService;
+import com.example.sonic.network.remote.APIServiceToken;
 import com.example.sonic.network.remote.RetrofitClient;
 import com.example.sonic.network.remote.RetrofitClientToken;
 import com.squareup.picasso.Picasso;
@@ -134,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //
         Retrofit mRetrofit = RetrofitClientToken.getClientToken(mOkBuilder);
-        APIService mApiServiceAfterLogin = mRetrofit.create(APIService.class);
+        APIServiceToken mApiServiceAfterLogin = mRetrofit.create(APIServiceToken.class);
         mApiServiceAfterLogin.getUser().enqueue(new Callback<UserDTO>() {
             @Override
             public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
@@ -152,8 +153,6 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e("Lỗi 4: ", t.getMessage());
             }
         });
-
-
     }
 
 
