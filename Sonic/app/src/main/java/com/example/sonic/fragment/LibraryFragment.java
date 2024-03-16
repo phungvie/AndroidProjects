@@ -138,6 +138,14 @@ public class LibraryFragment extends Fragment {
 
             }
         });
+
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Xử lý sự kiện ở đây
+                Toast.makeText(getActivity(), "ActionBarDrawerToggle Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
         return mView;
 
     }

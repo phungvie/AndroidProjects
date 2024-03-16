@@ -16,12 +16,26 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import android.window.OnBackAnimationCallback;
 
 import com.example.sonic.databinding.ActivityMainBinding;
+import com.example.sonic.network.model.UserDTO;
+import com.example.sonic.network.remote.APIServiceToken;
+import com.example.sonic.network.remote.RetrofitClientToken;
 import com.google.android.material.navigation.NavigationView;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,6 +48,12 @@ public class MainActivity extends AppCompatActivity
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        String token = DataLocalManager.getInstance().getToken();
+        if (token.isEmpty()) {
+            Intent mIntent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(mIntent);
+        }
 
 //
         binding.viewPager2.setUserInputEnabled(false);
@@ -127,6 +147,14 @@ public class MainActivity extends AppCompatActivity
 
         //
 
+        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Xử lý sự kiện ở đây
+                onBackPressed();
+            }
+        });
+
 
     }
 
@@ -153,28 +181,26 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {
-
-        if(false) {
+        if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
+            return;
         }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Ấn back một lần nữa để thoát", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000); // Thời gian cho phép ấn back lần thứ hai
     }
 
 
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Pass the event to ActionBarDrawerToggle, if it returns true, then it has handled
-        // the event
-        Toast.makeText(this, "Vietdz haha", Toast.LENGTH_SHORT).show();
-        onBackPressed();
-        if ( toggle.onOptionsItemSelected(item)) {
-            Toast.makeText(this, "Vietdz haha", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        // Handle other ActionBar item clicks here if needed
-        return super.onOptionsItemSelected(item);
-    }
 }
+

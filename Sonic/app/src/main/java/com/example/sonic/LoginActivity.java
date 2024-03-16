@@ -51,7 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         String token = DataLocalManager.getInstance().getToken();
         if (!token.isEmpty()) {
-            attachTokenToHeader();
             Intent mIntent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(mIntent);
         } else {
@@ -91,7 +90,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginToken(String username, String passwword) {
-        String token = DataLocalManager.getInstance().getToken();
         APIService mAPIService = RetrofitClient.getClient().create(APIService.class);
 
         mAPIService.loginToken(new LoginRequest(username, passwword))
@@ -135,6 +133,8 @@ public class LoginActivity extends AppCompatActivity {
 
         //
         Retrofit mRetrofit = RetrofitClientToken.getClientToken(mOkBuilder);
+
+        //lấy user
         APIServiceToken mApiServiceAfterLogin = mRetrofit.create(APIServiceToken.class);
         mApiServiceAfterLogin.getUser().enqueue(new Callback<UserDTO>() {
             @Override
