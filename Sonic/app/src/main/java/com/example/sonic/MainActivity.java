@@ -1,6 +1,7 @@
 package com.example.sonic;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -8,24 +9,24 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.sonic.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ActivityMainBinding binding;
+    ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,34 +34,72 @@ public class MainActivity extends AppCompatActivity
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+//
+        binding.viewPager2.setUserInputEnabled(false);
+    //  binding.viewPager2.setPageTransformer(new ZoomOutPageTransformer());
+//
+
+
 //
         DrawerLayout mDrawerLayout = binding.drawerLayout;
         Toolbar mToolbar = binding.toolbar;
 
-        setSupportActionBar(binding.toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
-                R.string.open, R.string.close);
+        setSupportActionBar(mToolbar);
 
-        binding.drawerLayout.addDrawerListener(toggle);
+
+         toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
+                R.string.open, R.string.close);
+//        toggle.setDrawerIndicatorEnabled(false); // Disable default toggle icon
+//        toggle.setHomeAsUpIndicator(R.drawable.ic_bars_sort); // Disable Up indicator
+//        toggle.setToolbarNavigationClickListener(view -> {
+//            // Xử lý sự kiện khi nút tuỳ chỉnh được nhấn
+//            if ( binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+//                binding.drawerLayout.closeDrawer(GravityCompat.START);
+//            } else {
+//                binding.drawerLayout.openDrawer(GravityCompat.START);
+//            }
+//        });
+//
+//        mDrawerLayout.addDrawerListener(toggle);
+
+        mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+
+        //
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_bars_sort);
+
+        //
+
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setCustomView(customToggleView);
+
+//
         NavigationView mNavigationView = binding.navView;
         mNavigationView.setNavigationItemSelectedListener(this);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //
-        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this);
+
+//
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this,getSupportActionBar(),toggle);
         binding.viewPager2.setAdapter(myViewPagerAdapter);
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.bottom_home) {
                 binding.viewPager2.setCurrentItem(0);
+                binding.toolbar.setTitle(R.string.home);
             } else if (id == R.id.bottom_search) {
                 binding.viewPager2.setCurrentItem(1);
+                binding.toolbar.setTitle(R.string.search);
             } else if (id == R.id.bottom_library) {
                 binding.viewPager2.setCurrentItem(2);
+                binding.toolbar.setTitle(R.string.lib);
             } else if (id == R.id.bottom_premium) {
                 binding.viewPager2.setCurrentItem(3);
+                binding.toolbar.setTitle(R.string.premium);
             }
             return true;
         });
@@ -105,18 +144,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                Toast.makeText(this, "vietdZas", Toast.LENGTH_SHORT).show();
-//                return true;
-//
-//
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -126,4 +154,27 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onBackPressed() {
+
+        if(false) {
+            super.onBackPressed();
+        }
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns true, then it has handled
+        // the event
+        Toast.makeText(this, "Vietdz haha", Toast.LENGTH_SHORT).show();
+        onBackPressed();
+        if ( toggle.onOptionsItemSelected(item)) {
+            Toast.makeText(this, "Vietdz haha", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        // Handle other ActionBar item clicks here if needed
+        return super.onOptionsItemSelected(item);
+    }
 }

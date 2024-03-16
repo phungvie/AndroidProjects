@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.example.sonic.R;
 import com.example.sonic.network.model.Lib;
@@ -48,8 +49,10 @@ public class MyAdapter extends ArrayAdapter<Lib> {
             ImageView mImageViewLib=convertView.findViewById(R.id.imageViewLib);
             TextView mTextViewName=convertView.findViewById(R.id.textViewNameLib);
             TextView mTextViewGen=convertView.findViewById(R.id.textViewGenLib);
+            CardView mCardView=convertView.findViewById(R.id.cardViewLib);
             mTextViewName.setText(viet.getPlaylistDTO().getName());
             mTextViewGen.setText("Danh sách phát");
+            mCardView.setRadius(30);
             Picasso.get().load("http://10.0.2.2:8080"+viet.getPlaylistDTO().getImage()).into(mImageViewLib);
 
 

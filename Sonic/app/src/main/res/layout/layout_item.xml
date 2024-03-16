@@ -7,8 +7,9 @@
     android:layout_centerVertical="true"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="5dp"
+    android:padding="7dp"
     android:background="@color/black"
+    android:stateListAnimator="@drawable/item_lib"
     >
 
 
@@ -26,8 +27,8 @@
 
         <ImageView
             android:id="@+id/imageViewLib"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
             android:src="@drawable/images" />
 
@@ -45,7 +46,7 @@
         android:id="@+id/textViewNameLib"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
+        android:textSize="22dp"
         android:textColor="@color/white"
         android:text="Tên" />
 
@@ -53,8 +54,8 @@
         android:id="@+id/textViewGenLib"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="15dp"
+        android:textColor="#B2FFFFFF"
+        android:textSize="14dp"
         android:text="Thể loại" />
 </LinearLayout>
 
