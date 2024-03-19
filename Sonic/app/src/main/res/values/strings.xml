@@ -5,6 +5,7 @@
     <string name="lib">Thư viện</string>
     <string name="premium">Premium</string>
     <string name="infUser">Thông tin chi tiết người dùng</string>
+    <string name="logout">Đăng xuất</string>
 
     <string name="title_activity_login">LoginActivity</string>
     <!-- Strings used for fragments for navigation -->

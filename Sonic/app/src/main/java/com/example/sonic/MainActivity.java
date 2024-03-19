@@ -147,13 +147,13 @@ public class MainActivity extends AppCompatActivity
 
         //
 
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Xử lý sự kiện ở đây
-                onBackPressed();
-            }
-        });
+//        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // Xử lý sự kiện ở đây
+//                onBackPressed();
+//            }
+//        });
 
 
     }
@@ -167,6 +167,13 @@ public class MainActivity extends AppCompatActivity
             Intent mIntent=new Intent(this,InfUserActivity.class);
             startActivity(mIntent);
 
+        }else{
+            if(id == R.id.bottom_logout){
+                DataLocalManager.getInstance().setToken(null);
+                DataLocalManager.getInstance().setName(null);
+                Intent mIntent=new Intent(this,LoginActivity.class);
+                startActivity(mIntent);
+            }
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -174,18 +181,13 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        // Điều hướng ngược lại (navigate up) khi bấm nút quay trở lại
-        binding.viewPager2.setCurrentItem(0);
-        return true;
-    }
 
     private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
+            exitApp();
             super.onBackPressed();
             return;
         }
@@ -201,6 +203,9 @@ public class MainActivity extends AppCompatActivity
         }, 2000); // Thời gian cho phép ấn back lần thứ hai
     }
 
-
+    private void exitApp() {
+        // Kết thúc tất cả các Activity và thoát khỏi ứng dụng
+        finishAffinity();
+    }
 }
 

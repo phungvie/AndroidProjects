@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         //chuyển hướng đến uerF
 
 
-        Picasso.get().load("http://10.0.2.2:8080/data/img/anh1.jpg").into(mImageView);
+        Picasso.get().load(RetrofitClient.url+"/data/img/anh1.jpg").into(mImageView);
     }
 
     public void loginToken(String username, String passwword) {

@@ -16,6 +16,7 @@ import androidx.cardview.widget.CardView;
 
 import com.example.sonic.R;
 import com.example.sonic.network.model.Lib;
+import com.example.sonic.network.remote.RetrofitClient;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class MyAdapter extends ArrayAdapter<Lib> {
             mTextViewName.setText(viet.getPlaylistDTO().getName());
             mTextViewGen.setText("Danh sách phát");
             mCardView.setRadius(30);
-            Picasso.get().load("http://10.0.2.2:8080"+viet.getPlaylistDTO().getImage()).into(mImageViewLib);
+            Picasso.get().load(RetrofitClient.url+viet.getPlaylistDTO().getImage()).into(mImageViewLib);
 
 
         }else{
@@ -63,8 +64,8 @@ public class MyAdapter extends ArrayAdapter<Lib> {
             mTextViewName.setText(viet.getArtistDTO().getName());
             mTextViewGen.setText("Nghệ sĩ");
 
-            Picasso.get().load("http://10.0.2.2:8080"+viet.getArtistDTO().getImage()).into(mImageViewLib);
-//            Toast.makeText(context, "http://10.0.2.2:8080"+viet.getArtistDTO().getImage(), Toast.LENGTH_SHORT).show();
+            Picasso.get().load(RetrofitClient.url+viet.getArtistDTO().getImage()).into(mImageViewLib);
+//            Toast.makeText(context, RetrofitClient.url+viet.getArtistDTO().getImage(), Toast.LENGTH_SHORT).show();
 //            Picasso.get().load("https://hoanghamobile.com/tin-tuc/wp-content/uploads/2023/10/anh-dai-dien-zalo-1.jpg").into(mImageViewLib);
         }
 
