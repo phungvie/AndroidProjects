@@ -1,4 +1,4 @@
-package com.example.sonic;
+package com.example.sonic.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;

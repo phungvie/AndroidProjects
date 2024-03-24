@@ -1,7 +1,6 @@
 package com.example.sonic;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,30 +11,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
-import android.window.OnBackAnimationCallback;
 
+import com.example.sonic.adapter.MyViewPagerAdapter;
 import com.example.sonic.databinding.ActivityMainBinding;
-import com.example.sonic.network.model.UserDTO;
-import com.example.sonic.network.remote.APIServiceToken;
-import com.example.sonic.network.remote.RetrofitClientToken;
+import com.example.sonic.network.sharedPreferences.DataLocalManager;
+import com.example.sonic.network.sharedPreferences.MySharedPreferences;
 import com.google.android.material.navigation.NavigationView;
-
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,15 +36,14 @@ public class MainActivity extends AppCompatActivity
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        String token = DataLocalManager.getInstance().getToken();
+        String token = DataLocalManager.getToken();
         if (token.isEmpty()) {
             Intent mIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(mIntent);
         }
-
 //
         binding.viewPager2.setUserInputEnabled(false);
-    //  binding.viewPager2.setPageTransformer(new ZoomOutPageTransformer());
+        //  binding.viewPager2.setPageTransformer(new ZoomOutPageTransformer());
 //
 
 
@@ -68,7 +54,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(mToolbar);
 
 
-         toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
+        toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
                 R.string.open, R.string.close);
 //        toggle.setDrawerIndicatorEnabled(false); // Disable default toggle icon
 //        toggle.setHomeAsUpIndicator(R.drawable.ic_bars_sort); // Disable Up indicator
@@ -103,7 +89,7 @@ public class MainActivity extends AppCompatActivity
 //
 
 //
-        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this,getSupportActionBar(),toggle);
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this, getSupportActionBar(), toggle);
         binding.viewPager2.setAdapter(myViewPagerAdapter);
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
@@ -164,14 +150,14 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.bottom_inf_user) {
 //            binding.viewPager2.setCurrentItem(4);
 
-            Intent mIntent=new Intent(this,InfUserActivity.class);
+            Intent mIntent = new Intent(this, InfUserActivity.class);
             startActivity(mIntent);
 
-        }else{
-            if(id == R.id.bottom_logout){
-                DataLocalManager.getInstance().setToken(null);
-                DataLocalManager.getInstance().setName(null);
-                Intent mIntent=new Intent(this,LoginActivity.class);
+        } else {
+            if (id == R.id.bottom_logout) {
+                DataLocalManager.setToken(null);
+                DataLocalManager.setUserDTO(null);
+                Intent mIntent = new Intent(this, LoginActivity.class);
                 startActivity(mIntent);
             }
         }
@@ -180,27 +166,52 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
     private boolean doubleBackToExitPressedOnce = false;
+//    @Override
+//    public void onBackPressed() {
+//        if (doubleBackToExitPressedOnce) {
+//            exitApp();
+//            super.onBackPressed();
+//            return;
+//        }
+//
+//        this.doubleBackToExitPressedOnce = true;
+//        Toast.makeText(this, "Ấn back một lần nữa để thoát", Toast.LENGTH_SHORT).show();
+//
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                doubleBackToExitPressedOnce=false;
+//            }
+//        }, 2000); // Thời gian cho phép ấn back lần thứ hai
+//    }
+
 
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            exitApp();
-            super.onBackPressed();
-            return;
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            if (binding.viewPager2.getVisibility() == View.VISIBLE) {
+                if (doubleBackToExitPressedOnce) {
+                    exitApp();
+                    return;
+                }
+
+                this.doubleBackToExitPressedOnce = true;
+                Toast.makeText(this, "Ấn back một lần nữa để thoát.", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000); // Thời gian cho phép ấn back lần thứ hai
+            } else {
+                super.onBackPressed();
+            }
         }
 
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Ấn back một lần nữa để thoát", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000); // Thời gian cho phép ấn back lần thứ hai
     }
 
     private void exitApp() {

@@ -6,7 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.example.sonic.databinding.ActivityInfUserBinding;
+import com.example.sonic.network.sharedPreferences.DataLocalManager;
 
 public class InfUserActivity extends AppCompatActivity {
     @Override
@@ -16,7 +16,7 @@ public class InfUserActivity extends AppCompatActivity {
 
         Toolbar mToolbar = findViewById(R.id.toolbarInf);
         setSupportActionBar(mToolbar);
-        String name = DataLocalManager.getInstance().getName();
+        String name = DataLocalManager.getUserDTO().getName();
 
 //        getActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

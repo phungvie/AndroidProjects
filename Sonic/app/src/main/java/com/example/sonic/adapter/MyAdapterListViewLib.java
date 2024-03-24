@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,16 +17,15 @@ import com.example.sonic.network.model.Lib;
 import com.example.sonic.network.remote.RetrofitClient;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MyAdapter extends ArrayAdapter<Lib> {
+public class MyAdapterListViewLib extends ArrayAdapter<Lib> {
     Context context;
     int layoutResource;
     List<Lib> mLibs;
 
 
-    public MyAdapter(@NonNull Context context, int resource, @NonNull List<Lib> objects) {
+    public MyAdapterListViewLib(@NonNull Context context, int resource, @NonNull List<Lib> objects) {
         super(context, resource, objects);
         this.context=context;
         this.layoutResource=resource;

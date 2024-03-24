@@ -8,10 +8,8 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.sonic.fragment.HomeFragment;
 import com.example.sonic.network.model.LoginRequest;
 import com.example.sonic.network.model.TokenLogin;
 import com.example.sonic.network.model.UserDTO;
@@ -19,6 +17,7 @@ import com.example.sonic.network.remote.APIService;
 import com.example.sonic.network.remote.APIServiceToken;
 import com.example.sonic.network.remote.RetrofitClient;
 import com.example.sonic.network.remote.RetrofitClientToken;
+import com.example.sonic.network.sharedPreferences.DataLocalManager;
 import com.squareup.picasso.Picasso;
 
 import okhttp3.Interceptor;
@@ -44,12 +43,12 @@ public class LoginActivity extends AppCompatActivity {
         mEditTextPassword = findViewById(R.id.editTextPassword);
         mImageView = findViewById(R.id.dataImg);
 
-        if (!DataLocalManager.getInstance().getFirstIntstalled()) {
+        if (!DataLocalManager.getFirstIntstalled()) {
             Toast.makeText(this, "Lần mở ứng dụng đầu tiên", Toast.LENGTH_LONG).show();
-            DataLocalManager.getInstance().setFirstIntstalled(true);
+            DataLocalManager.setFirstIntstalled(true);
 
         }
-        String token = DataLocalManager.getInstance().getToken();
+        String token = DataLocalManager.getToken();
         if (!token.isEmpty()) {
             Intent mIntent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(mIntent);
@@ -64,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
 
-                if (!DataLocalManager.getInstance().getName().isEmpty()) {
+                if (DataLocalManager.getUserDTO()!=null) {
                     Intent mIntent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(mIntent);
                 }
@@ -101,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             TokenLogin tl = response.body();
                             token = "Bearer " + tl.getAccessToken();
-                            DataLocalManager.getInstance().setToken(token);
+                            DataLocalManager.setToken(token);
                             // lưu dữ liệu vào sharedPre
                             attachTokenToHeader();
                         } else {
@@ -122,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private static void attachTokenToHeader() {
         //gắn token vào header
-        String token = DataLocalManager.getInstance().getToken();
+        String token = DataLocalManager.getToken();
         Interceptor mInterceptor = chain -> {
             Request mRequest = chain.request();
             Request.Builder mBuilder = mRequest.newBuilder();
@@ -141,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<UserDTO> call, Response<UserDTO> response) {
                 if (response.isSuccessful()) {
                     UserDTO mUserDTO = response.body();
-                    DataLocalManager.getInstance().setName(mUserDTO.getName());
+                    DataLocalManager.setUserDTO(mUserDTO);
                 } else {
                     // Xử lý trường hợp lỗi nếu có
                     Log.e("Lỗi 3: ", response.code() + "");

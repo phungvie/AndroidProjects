@@ -3,6 +3,7 @@ package com.example.sonic;
 import android.app.Application;
 
 import com.example.sonic.network.remote.RetrofitClientToken;
+import com.example.sonic.network.sharedPreferences.DataLocalManager;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -13,10 +14,10 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        DataLocalManager.init(getApplicationContext());
+        DataLocalManager.getInstance(getApplicationContext());
 
         //
-        String token = DataLocalManager.getInstance().getToken();
+        String token = DataLocalManager.getToken();
         if (!token.isEmpty()) {
             Interceptor mInterceptor = chain -> {
                 Request mRequest = chain.request();

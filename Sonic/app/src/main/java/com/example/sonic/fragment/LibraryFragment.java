@@ -3,12 +3,10 @@ package com.example.sonic.fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,19 +16,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.sonic.DataLocalManager;
 import com.example.sonic.R;
-import com.example.sonic.adapter.MyAdapter;
+import com.example.sonic.adapter.MyAdapterListViewLib;
 import com.example.sonic.network.model.ArtistDTO;
 import com.example.sonic.network.model.Lib;
 import com.example.sonic.network.model.PlaylistDTO;
-import com.example.sonic.network.model.UserDTO;
 import com.example.sonic.network.remote.APIServiceToken;
 import com.example.sonic.network.remote.RetrofitClientToken;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,12 +34,13 @@ import retrofit2.Retrofit;
 
 public class LibraryFragment extends Fragment {
     private View mView;
-    MyAdapter myAdapter;
+    MyAdapterListViewLib myAdapter;
     ListView mListView;
 
     ActionBarDrawerToggle toggle;
 
     ActionBar mActionBar;
+    FragmentManager fragmentManager;
     List<Lib> data=new ArrayList<>();
 
     public LibraryFragment(ActionBar mActionBar,ActionBarDrawerToggle toggle) {
@@ -58,7 +54,7 @@ public class LibraryFragment extends Fragment {
         mView=inflater.inflate(R.layout.fragment_library,container,false);
         mListView=mView.findViewById(R.id.list_view_lib);
 
-        myAdapter = new MyAdapter(getActivity(), R.layout.layout_item, data);
+        myAdapter = new MyAdapterListViewLib(getActivity(), R.layout.layout_item, data);
         mListView.setAdapter(myAdapter);
 
 
@@ -68,7 +64,7 @@ public class LibraryFragment extends Fragment {
 
 
 
-        mApiServiceToken.getArtistDto(1).enqueue(new Callback<List<ArtistDTO>>() {
+        mApiServiceToken.getArtistDto().enqueue(new Callback<List<ArtistDTO>>() {
             @Override
             public void onResponse(Call<List<ArtistDTO>> call, Response<List<ArtistDTO>> response) {
                 if (response.isSuccessful()) {
@@ -90,7 +86,7 @@ public class LibraryFragment extends Fragment {
             }
         });
 
-        mApiServiceToken.getPlaylistDto(1).enqueue(new Callback<List<PlaylistDTO>>() {
+        mApiServiceToken.getPlaylistDto().enqueue(new Callback<List<PlaylistDTO>>() {
             @Override
             public void onResponse(Call<List<PlaylistDTO>> call, Response<List<PlaylistDTO>> response) {
                 if (response.isSuccessful()) {
@@ -118,19 +114,20 @@ public class LibraryFragment extends Fragment {
                 getActivity().findViewById(R.id.view_pager_2).setVisibility(View.GONE);
                 getActivity().findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
 
-                //
-//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//                HomeFragment fragment = new HomeFragment();
-//                fragmentTransaction.replace(R.id.fragment_container, fragment);
-//                fragmentTransaction.commit();
-//                Toast.makeText(getActivity(), position+"", Toast.LENGTH_SHORT).show();
 
                 //
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, new HomeFragment());
-                transaction.addToBackStack(null);
-                transaction.commit();
+                fragmentManager= getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                PlaylistFragment fragment = new PlaylistFragment(data.get(position));
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+                //
+//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.fragment_container, new HomeFragment());
+//                transaction.addToBackStack(null);
+//                transaction.commit();
 
                 toggle.setDrawerIndicatorEnabled(false);
                 mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -142,8 +139,16 @@ public class LibraryFragment extends Fragment {
         toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Xử lý sự kiện ở đây
-                Toast.makeText(getActivity(), "ActionBarDrawerToggle Clicked", Toast.LENGTH_SHORT).show();
+                if(fragmentManager.getBackStackEntryCount()==1){
+                    getActivity().onBackPressed();
+                    getActivity().findViewById(R.id.view_pager_2).setVisibility(View.VISIBLE);
+                    getActivity().findViewById(R.id.fragment_container).setVisibility(View.GONE);
+                    toggle.setDrawerIndicatorEnabled(true);
+                    mActionBar.setDisplayHomeAsUpEnabled(true);
+                    mActionBar.setHomeAsUpIndicator(R.drawable.ic_bars_sort);
+                }else{
+                    getActivity().onBackPressed();
+                }
             }
         });
         return mView;
