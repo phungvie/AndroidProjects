@@ -14,13 +14,12 @@ import com.example.sonic.fragment.SearchFragment;
 
 public class MyViewPagerAdapter extends FragmentStateAdapter {
 
-    ActionBar mActionBar;
-
     ActionBarDrawerToggle toggle;
-    public MyViewPagerAdapter(@NonNull FragmentActivity fragmentActivity,ActionBar mActionBar,ActionBarDrawerToggle toggle) {
+    public MyViewPagerAdapter(@NonNull FragmentActivity fragmentActivity,ActionBarDrawerToggle toggle) {
         super(fragmentActivity);
-        this.mActionBar=mActionBar;
         this.toggle=toggle;
+
+
     }
 
     @NonNull
@@ -32,7 +31,7 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
             case 1:
                 return new SearchFragment();
             case 2:
-                return new LibraryFragment(mActionBar,toggle);
+                return new LibraryFragment(toggle);
             case 3:
                 return new PremiumFragment();
             default:

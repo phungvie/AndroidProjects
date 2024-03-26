@@ -8,6 +8,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
@@ -53,57 +55,79 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(mToolbar);
 
-
         toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
                 R.string.open, R.string.close);
-//        toggle.setDrawerIndicatorEnabled(false); // Disable default toggle icon
-//        toggle.setHomeAsUpIndicator(R.drawable.ic_bars_sort); // Disable Up indicator
-//        toggle.setToolbarNavigationClickListener(view -> {
-//            // Xử lý sự kiện khi nút tuỳ chỉnh được nhấn
-//            if ( binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-//                binding.drawerLayout.closeDrawer(GravityCompat.START);
-//            } else {
-//                binding.drawerLayout.openDrawer(GravityCompat.START);
-//            }
-//        });
-//
-//        mDrawerLayout.addDrawerListener(toggle);
-
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-
-        //
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_bars_sort);
-
-        //
-
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeButtonEnabled(true);
-//        getSupportActionBar().setCustomView(customToggleView);
-
-//
         NavigationView mNavigationView = binding.navView;
         mNavigationView.setNavigationItemSelectedListener(this);
-//
+
+        View headerView=mNavigationView.getHeaderView(0);
+        TextView mTextViewNav=headerView.findViewById(R.id.textViewNameNavHeaderMain);
+        mTextViewNav.setText(DataLocalManager.getUserDTO().getName());
+
 
 //
-        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this, getSupportActionBar(), toggle);
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this,toggle);
         binding.viewPager2.setAdapter(myViewPagerAdapter);
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.bottom_home) {
+                findViewById(R.id.view_pager_2).setVisibility(View.VISIBLE);
+                findViewById(R.id.fragment_container).setVisibility(View.GONE);
+                toggle.setDrawerIndicatorEnabled(true);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+// Loại bỏ tất cả các fragment hiện tại khỏi FrameLayout
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+// Commit thay đổi
+                fragmentTransaction.commit();
+
                 binding.viewPager2.setCurrentItem(0);
                 binding.toolbar.setTitle(R.string.home);
             } else if (id == R.id.bottom_search) {
+                findViewById(R.id.view_pager_2).setVisibility(View.VISIBLE);
+                findViewById(R.id.fragment_container).setVisibility(View.GONE);
+                toggle.setDrawerIndicatorEnabled(true);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+// Loại bỏ tất cả các fragment hiện tại khỏi FrameLayout
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+// Commit thay đổi
+                fragmentTransaction.commit();
+
                 binding.viewPager2.setCurrentItem(1);
                 binding.toolbar.setTitle(R.string.search);
             } else if (id == R.id.bottom_library) {
+                findViewById(R.id.view_pager_2).setVisibility(View.VISIBLE);
+                findViewById(R.id.fragment_container).setVisibility(View.GONE);
+                toggle.setDrawerIndicatorEnabled(true);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+// Loại bỏ tất cả các fragment hiện tại khỏi FrameLayout
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+// Commit thay đổi
+                fragmentTransaction.commit();
+
                 binding.viewPager2.setCurrentItem(2);
                 binding.toolbar.setTitle(R.string.lib);
             } else if (id == R.id.bottom_premium) {
+                findViewById(R.id.view_pager_2).setVisibility(View.VISIBLE);
+                findViewById(R.id.fragment_container).setVisibility(View.GONE);
+                toggle.setDrawerIndicatorEnabled(true);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+// Loại bỏ tất cả các fragment hiện tại khỏi FrameLayout
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+// Commit thay đổi
+                fragmentTransaction.commit();
+
                 binding.viewPager2.setCurrentItem(3);
                 binding.toolbar.setTitle(R.string.premium);
             }

@@ -2,6 +2,7 @@ package com.example.sonic.network.remote;
 
 import com.example.sonic.network.model.ArtistDTO;
 import com.example.sonic.network.model.PlaylistDTO;
+import com.example.sonic.network.model.SongDTO;
 import com.example.sonic.network.model.UserDTO;
 
 import java.util.List;
@@ -19,5 +20,7 @@ public interface APIServiceToken {
 
     @GET("/sonic/lib/playlists")
     Call<List<PlaylistDTO>> getPlaylistDto();
+
+
 
 }

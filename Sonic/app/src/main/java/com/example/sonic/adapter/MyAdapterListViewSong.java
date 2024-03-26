@@ -15,7 +15,9 @@ import androidx.cardview.widget.CardView;
 import com.example.sonic.R;
 import com.example.sonic.network.model.Lib;
 import com.example.sonic.network.model.SongDTO;
+import com.example.sonic.network.remote.APIService;
 import com.example.sonic.network.remote.RetrofitClient;
+import com.example.sonic.network.remote.RetrofitClientToken;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -44,9 +46,15 @@ public class MyAdapterListViewSong extends ArrayAdapter<SongDTO> {
 
         SongDTO viet= mSongDTOs.get(position);
 
+        ImageView mImageViewSong=convertView.findViewById(R.id.imageViewSong);
+        TextView mTextViewName=convertView.findViewById(R.id.textViewNameSong);
+        TextView mTextViewArtist=convertView.findViewById(R.id.textViewArtist);
 
 
 
+        mTextViewName.setText(viet.getName());
+        Picasso.get().load(RetrofitClient.url+viet.getImage()).into(mImageViewSong);
+        mTextViewArtist.setText(viet.getArtistName());
 
 
 
