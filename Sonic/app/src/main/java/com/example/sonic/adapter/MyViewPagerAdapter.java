@@ -11,6 +11,8 @@ import com.example.sonic.fragment.HomeFragment;
 import com.example.sonic.fragment.LibraryFragment;
 import com.example.sonic.fragment.PremiumFragment;
 import com.example.sonic.fragment.SearchFragment;
+import com.example.sonic.fragment.SongFragment;
+import com.example.sonic.network.model.SongDTO;
 
 public class MyViewPagerAdapter extends FragmentStateAdapter {
 
@@ -27,7 +29,7 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new HomeFragment();
+                return new SongFragment(new SongDTO(9, "bài hát 9", "", "/data/stream/nhac1.mp3", null, ""));
             case 1:
                 return new SearchFragment();
             case 2:

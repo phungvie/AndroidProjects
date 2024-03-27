@@ -1,8 +1,9 @@
 package com.example.sonic.network.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class SongDTO {
+public class SongDTO implements Serializable {
     private Integer songID;
     private String name;
     private String image;
