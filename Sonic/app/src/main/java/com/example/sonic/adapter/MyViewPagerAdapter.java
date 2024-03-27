@@ -29,7 +29,7 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new SongFragment(new SongDTO(9, "bài hát 9", "", "/data/stream/nhac1.mp3", null, ""));
+                return new SongFragment(new SongDTO(9, "bài hát 9", "", "/data/stream/HayTraoChoAnh-SonTungMTPSnoopDogg-6010660.mp3", null, ""));
             case 1:
                 return new SearchFragment();
             case 2:

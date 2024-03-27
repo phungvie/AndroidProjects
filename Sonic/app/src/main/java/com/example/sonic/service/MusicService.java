@@ -7,6 +7,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioAttributes;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -18,15 +20,19 @@ import com.example.sonic.MainActivity;
 import com.example.sonic.MyApplication;
 import com.example.sonic.R;
 import com.example.sonic.network.model.SongDTO;
+import com.example.sonic.network.remote.RetrofitClient;
+
+import java.io.IOException;
 
 public class MusicService extends Service {
-
+    private MediaPlayer mediaPlayer;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e("viet Service","onCreate");
+        Log.e("viet Service", "onCreate");
     }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -34,43 +40,75 @@ public class MusicService extends Service {
     }
 
 
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Bundle bundle=intent.getExtras();
-        if(bundle!=null){
-            SongDTO songDTO= (SongDTO) bundle.get("ob_song");
-            sendNotification(songDTO);
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            SongDTO songDTO = (SongDTO) bundle.get("ob_song");
+            if (songDTO != null) {
+                sendNotification(songDTO);
+                startMusic(songDTO);
+            }
         }
 
         return START_NOT_STICKY;
     }
 
+    private void startMusic(SongDTO songDTO) {
+        if(mediaPlayer==null){
+            String streamUrl="http://139.59.110.7/data/stream/MatTroiCuaEmKynbbRemix-JustaTeePhuongLy-5290457.mp3";
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .build());
+
+            try {
+                mediaPlayer.setDataSource(streamUrl);
+                mediaPlayer.prepareAsync();
+                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                    @Override
+                    public void onPrepared(MediaPlayer mp) {
+                        mediaPlayer.start();
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private void sendNotification(SongDTO song) {
-        Intent intent=new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent=PendingIntent.getActivity(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         //
-        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),R.drawable.images);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.images);
         //
 
         //
-        RemoteViews remoteViews=new RemoteViews(getPackageName(),R.layout.layout_custom_notification);
-        remoteViews.setTextViewText(R.id.tv_title_song,song.getName());
-        remoteViews.setTextViewText(R.id.tv_single_song,song.getArtistName());
-        remoteViews.setImageViewBitmap(R.id.imageViewSong,bitmap);
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_custom_notification);
+        remoteViews.setTextViewText(R.id.tv_title_song, song.getName());
+        remoteViews.setTextViewText(R.id.tv_single_song, song.getArtistName());
+        remoteViews.setImageViewBitmap(R.id.imageViewSong, bitmap);
+
+        remoteViews.setImageViewResource(R.id.img_play_or_pause, R.drawable.ic_pause);
         //
-        Notification notification=new Notification.Builder(this, MyApplication.CHANNEL_ID)
-                .setContentTitle("Title viet dz")
-                .setContentText(stringDataIntent)
-                .setSmallIcon(R.drawable.ic_bars_sort)
+        Notification notification = new Notification.Builder(this, MyApplication.CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_play)
+                .setCustomContentView(remoteViews)
                 .build();
-        startForeground(1,notification);
+        startForeground(1, notification);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 }
