@@ -1,13 +1,12 @@
 package com.example.sonic;
 
 import android.app.Application;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 
 import com.example.sonic.network.remote.RetrofitClientToken;
-import com.example.sonic.network.sharedPreferences.DataLocalManager;
+import com.example.sonic.sharedPreferences.DataLocalManager;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -45,6 +44,7 @@ public class MyApplication extends Application {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
                     "channel service example ",
                     NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setSound(null,null);
             NotificationManager manager = getSystemService(NotificationManager.class);
             if (manager != null) {
                 manager.createNotificationChannel(channel);

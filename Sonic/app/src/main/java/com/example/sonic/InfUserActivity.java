@@ -6,7 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.example.sonic.network.sharedPreferences.DataLocalManager;
+import com.example.sonic.sharedPreferences.DataLocalManager;
 
 public class InfUserActivity extends AppCompatActivity {
     @Override

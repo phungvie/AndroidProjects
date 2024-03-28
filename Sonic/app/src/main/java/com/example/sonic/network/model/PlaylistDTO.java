@@ -1,8 +1,13 @@
 package com.example.sonic.network.model;
 
+import com.google.gson.annotations.Expose;
+
 public class PlaylistDTO {
+    @Expose
     private Integer playlistID;
+    @Expose
     private String name;
+    @Expose
     private String image;
 
     public PlaylistDTO(Integer playlistID, String name, String image) {

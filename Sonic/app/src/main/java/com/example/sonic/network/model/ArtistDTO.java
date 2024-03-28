@@ -1,12 +1,18 @@
 package com.example.sonic.network.model;
 
+import com.google.gson.annotations.Expose;
+
 import java.sql.Date;
 
 public class ArtistDTO {
+    @Expose
     private Integer artistID;
+    @Expose
     private String name;
     private Date dateOfBirth;
+    @Expose
     private String country;
+    @Expose
     private String image;
 
     public ArtistDTO(Integer artistID, String name, Date dateOfBirth, String country, String image) {

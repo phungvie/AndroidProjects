@@ -3,6 +3,8 @@ package com.example.sonic.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sonic.R;
 import com.example.sonic.adapter.MyAdapterListViewLib;
@@ -24,6 +27,7 @@ import com.example.sonic.network.remote.APIService;
 import com.example.sonic.network.remote.APIServiceToken;
 import com.example.sonic.network.remote.RetrofitClient;
 import com.example.sonic.network.remote.RetrofitClientToken;
+import com.example.sonic.sharedPreferences.DataLocalManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -38,7 +42,7 @@ import retrofit2.Retrofit;
 public class PlaylistFragment extends Fragment {
     private Lib mLib;
     private View mView;
-    private List<SongDTO> data = new ArrayList<>();
+    public static List<SongDTO> data ;
 
     public PlaylistFragment(Lib viet) {
         this.mLib = viet;
@@ -50,6 +54,9 @@ public class PlaylistFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        data= new ArrayList<>();
+        Toast.makeText(getActivity(), "viet", Toast.LENGTH_SHORT).show();
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_playlist, container, false);
 
@@ -78,6 +85,7 @@ public class PlaylistFragment extends Fragment {
                         List<SongDTO> mSongsDTO = response.body();
                         for (SongDTO songDTO : mSongsDTO) {
                             data.add(songDTO);
+                            songDTO.indexOfSong=data.indexOf(songDTO);
                         }
                         myAdapterListViewSong.notifyDataSetChanged();
 
@@ -110,6 +118,7 @@ public class PlaylistFragment extends Fragment {
                         List<SongDTO> mSongsDTO = response.body();
                         for (SongDTO songDTO : mSongsDTO) {
                             data.add(songDTO);
+                            songDTO.indexOfSong=data.indexOf(songDTO);
                         }
                         myAdapterListViewSong.notifyDataSetChanged();
 
@@ -124,8 +133,24 @@ public class PlaylistFragment extends Fragment {
                     Log.e("Lỗi playlist 4: ", t.getMessage());
                 }
             });
+
         }
 
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SongDTO songDTO=data.get(position);
+                songDTO.setSongID(data.indexOf(songDTO));
+                DataLocalManager.setSongDTO(songDTO);
+                FragmentManager fragmentManager= getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                SongFragment fragment = new SongFragment();
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
 
         return mView;
     }

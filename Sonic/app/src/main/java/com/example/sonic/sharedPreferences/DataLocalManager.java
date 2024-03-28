@@ -1,7 +1,8 @@
-package com.example.sonic.network.sharedPreferences;
+package com.example.sonic.sharedPreferences;
 
 import android.content.Context;
 
+import com.example.sonic.network.model.SongDTO;
 import com.example.sonic.network.model.UserDTO;
 import com.google.gson.Gson;
 
@@ -11,6 +12,7 @@ public class DataLocalManager {
     private static final String NAME_VALUE = "NAME_VALUE";
     private static final String FREF_OBJECT_USER = "FREF_OBJECT_USER";
     private static MySharedPreferences instance;
+    private static final String FREF_OBJECT_SONG="FREF_OBJECT_SONG";
 
     private DataLocalManager() {}
 
@@ -51,5 +53,20 @@ public class DataLocalManager {
 
 
        return mUserDTO;
+    }
+
+    public static  void setSongDTO(SongDTO mSongDTO){
+        Gson mGson=new Gson();
+        String stringJsonSong=mGson.toJson(mSongDTO);
+        DataLocalManager.getInstance(null).putStringValue(FREF_OBJECT_SONG,stringJsonSong);
+    }
+
+    public static SongDTO getSongDTO(){
+        String stringJsonSong= DataLocalManager.getInstance(null).getStringValue(FREF_OBJECT_SONG);
+        Gson mGson=new Gson();
+        SongDTO mSongDTO=mGson.fromJson(stringJsonSong,SongDTO.class);
+
+
+        return mSongDTO;
     }
 }

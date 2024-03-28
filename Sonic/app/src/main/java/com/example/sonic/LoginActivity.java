@@ -17,7 +17,7 @@ import com.example.sonic.network.remote.APIService;
 import com.example.sonic.network.remote.APIServiceToken;
 import com.example.sonic.network.remote.RetrofitClient;
 import com.example.sonic.network.remote.RetrofitClientToken;
-import com.example.sonic.network.sharedPreferences.DataLocalManager;
+import com.example.sonic.sharedPreferences.DataLocalManager;
 import com.squareup.picasso.Picasso;
 
 import okhttp3.Interceptor;

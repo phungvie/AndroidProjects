@@ -1,7 +1,11 @@
 package com.example.sonic.network.model;
 
+import com.google.gson.annotations.Expose;
+
 public class LoginRequest {
+    @Expose
     String username;
+    @Expose
     String password;
 
     public LoginRequest() {

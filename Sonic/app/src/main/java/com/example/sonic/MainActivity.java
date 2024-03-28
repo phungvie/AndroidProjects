@@ -22,8 +22,7 @@ import android.widget.Toast;
 
 import com.example.sonic.adapter.MyViewPagerAdapter;
 import com.example.sonic.databinding.ActivityMainBinding;
-import com.example.sonic.network.sharedPreferences.DataLocalManager;
-import com.example.sonic.network.sharedPreferences.MySharedPreferences;
+import com.example.sonic.sharedPreferences.DataLocalManager;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity

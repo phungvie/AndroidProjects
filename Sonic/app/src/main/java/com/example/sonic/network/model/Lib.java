@@ -1,5 +1,7 @@
 package com.example.sonic.network.model;
 
+import com.google.gson.annotations.Expose;
+
 public class Lib {
     private final ArtistDTO mArtistDTO;
     private final PlaylistDTO mPlaylistDTO;

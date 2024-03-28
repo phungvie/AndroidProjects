@@ -39,13 +39,13 @@ import retrofit2.Retrofit;
 
 public class LibraryFragment extends Fragment {
     private View mView;
-    MyAdapterListViewLib myAdapterListViewLib;
-    ListView mListView;
-    ActionBarDrawerToggle toggle;
+    private MyAdapterListViewLib myAdapterListViewLib;
+    private  ListView mListView;
+    private ActionBarDrawerToggle toggle;
 
-    ActionBarDrawerToggle.Delegate delegate;
-    FragmentManager fragmentManager;
-    List<Lib> data=new ArrayList<>();
+    private   ActionBarDrawerToggle.Delegate delegate;
+    private  FragmentManager fragmentManager;
+    public static List<Lib> data;
 
     public LibraryFragment(ActionBarDrawerToggle toggle) {
         this.toggle = toggle;
@@ -55,19 +55,15 @@ public class LibraryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView=inflater.inflate(R.layout.fragment_library,container,false);
-        //
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        delegate=activity.getDrawerToggleDelegate();
-
-        //delegate.setActionBarDescription();
 
 //
+       data= new ArrayList<>();
+        //
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        //
         mListView=mView.findViewById(R.id.list_view_lib);
 
-
-
-
-        myAdapterListViewLib = new MyAdapterListViewLib(getActivity(), R.layout.layout_item, data);
+        myAdapterListViewLib = new MyAdapterListViewLib(activity, R.layout.layout_item, data);
         mListView.setAdapter(myAdapterListViewLib);
 
 

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,20 +16,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.sonic.R;
+import com.example.sonic.network.model.PlaylistDTO;
 import com.example.sonic.network.model.SongDTO;
 import com.example.sonic.service.MusicService;
+import com.example.sonic.sharedPreferences.DataLocalManager;
 
 
 public class SongFragment extends Fragment {
-    EditText mEditTextService;
-    Button mButtonStartService;
-    Button mButtonStopService;
+
     private View mView;
-    AppCompatActivity activity;
-    SongDTO song;
-    public SongFragment(SongDTO song){
-        this.song =song;
+    private AppCompatActivity activity;
+    public SongFragment(){
+
     }
+
+
 
     @Nullable
     @Override
@@ -35,31 +38,51 @@ public class SongFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_song, container, false);
         activity = (AppCompatActivity) getActivity();
 
-        mEditTextService = mView.findViewById(R.id.edit_text_content_service);
-        mButtonStartService = mView.findViewById(R.id.startService);
-        mButtonStopService = mView.findViewById(R.id.stopService);
-        mButtonStartService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+        ImageButton mImageButtonPlayOrPause=mView.findViewById(R.id.img_play_or_pause_song);
+        ImageButton mImageButtonSkipNextSong=mView.findViewById(R.id.img_skip_next_song);
+        ImageButton mImageButtonSkipPreviousSong=mView.findViewById(R.id.img_skip_previous_song);
+
+        clickStopService();
+        clickStartService();
+        mImageButtonPlayOrPause.setOnClickListener(v -> clickStopService());
+
+
+        mImageButtonSkipPreviousSong.setOnClickListener(v -> {
+
+            int i=DataLocalManager.getSongDTO().indexOfSong;
+            int j=i-1;
+            Toast.makeText(activity, i+" "+j, Toast.LENGTH_SHORT).show();
+
+            if (j >= 0 && j < PlaylistFragment.data.size()) {
+                clickStopService();
+                DataLocalManager.setSongDTO(PlaylistFragment.data.get(j));
                 clickStartService();
             }
-        });
-        mButtonStopService.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickStopService();
-            }
+
         });
 
+        mImageButtonSkipNextSong.setOnClickListener(v -> {
+
+            int i=DataLocalManager.getSongDTO().indexOfSong;
+            int j=i+1;
+            Toast.makeText(activity, i+" "+j, Toast.LENGTH_SHORT).show();
+
+            if (j >= 0 && j < PlaylistFragment.data.size() ) {
+                clickStopService();
+                DataLocalManager.setSongDTO(PlaylistFragment.data.get(j));
+                clickStartService();
+            }
+
+            });
 
         return mView;
     }
 
     private void clickStartService() {
-
         Intent intent = new Intent(getActivity(), MusicService.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("ob_song", song);
+        bundle.putSerializable("ob_song", DataLocalManager.getSongDTO());
         intent.putExtras(bundle);
         activity.startService(intent);
     }

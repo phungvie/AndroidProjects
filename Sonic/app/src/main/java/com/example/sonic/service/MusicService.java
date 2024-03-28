@@ -56,7 +56,7 @@ public class MusicService extends Service {
 
     private void startMusic(SongDTO songDTO) {
         if(mediaPlayer==null){
-            String streamUrl="http://139.59.110.7/data/stream/MatTroiCuaEmKynbbRemix-JustaTeePhuongLy-5290457.mp3";
+            String streamUrl=RetrofitClient.url+songDTO.getSound();
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
                     .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
@@ -93,11 +93,13 @@ public class MusicService extends Service {
         remoteViews.setTextViewText(R.id.tv_single_song, song.getArtistName());
         remoteViews.setImageViewBitmap(R.id.imageViewSong, bitmap);
 
-        remoteViews.setImageViewResource(R.id.img_play_or_pause, R.drawable.ic_pause);
+        remoteViews.setImageViewResource(R.id.img_play_or_pause_notification, R.drawable.ic_pause);
         //
         Notification notification = new Notification.Builder(this, MyApplication.CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_play)
+                .setContentIntent(pendingIntent)
                 .setCustomContentView(remoteViews)
+//                .setSound(null)
                 .build();
         startForeground(1, notification);
     }

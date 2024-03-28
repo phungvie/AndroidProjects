@@ -1,15 +1,25 @@
 package com.example.sonic.network.model;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 public class SongDTO implements Serializable {
+    @Expose
     private Integer songID;
+    @Expose
     private String name;
+    @Expose
     private String image;
+    @Expose
     private String sound;
+    @Expose
     private Timestamp releaseTime;
+    @Expose
     private String artistName;
+
+    public int indexOfSong;
 
     public SongDTO(Integer songID, String name, String image, String sound, Timestamp releaseTime, String artistName) {
         this.songID = songID;

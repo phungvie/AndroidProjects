@@ -1,4 +1,4 @@
-package com.example.sonic.network.sharedPreferences;
+package com.example.sonic.sharedPreferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
