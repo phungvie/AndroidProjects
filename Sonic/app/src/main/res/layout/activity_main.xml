@@ -25,10 +25,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:backgroundTint="@color/black"
-                app:titleTextColor="@color/white"
-
                 app:title="@string/home"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 <!--            <androidx.appcompat.widget.Toolbar-->
@@ -68,13 +64,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-
-                app:backgroundTint="@color/black0"
+                app:labelVisibilityMode="labeled"
                 app:itemHorizontalTranslationEnabled="false"
                 app:itemIconTint="@color/custom_color_bottom"
                 app:itemRippleColor="@color/primaryColor"
-
-                app:itemTextColor="@color/white"
                 app:menu="@menu/menu_bottom_nav"
 
                 />

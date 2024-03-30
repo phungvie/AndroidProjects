@@ -2,9 +2,12 @@ package com.example.sonic;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -56,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             mButtonLogin.setOnClickListener(v -> {
                 String username = mEditTextUsername.getText().toString().trim();
                 String password = mEditTextPassword.getText().toString().trim();
+                hideKeyboard(this,v);
                 if (!username.isEmpty() && !password.isEmpty()) {
                     loginToken(username, password);
                 } else {
@@ -152,6 +156,14 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e("Lỗi 4: ", t.getMessage());
             }
         });
+    }
+
+    public static void hideKeyboard(Context context, View view) {
+        if (context == null || view == null) {
+            return;
+        }
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 

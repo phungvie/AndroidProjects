@@ -8,7 +8,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="7dp"
-    android:background="@color/black"
     android:stateListAnimator="@drawable/item_lib"
     >
 
@@ -47,7 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="22dp"
-        android:textColor="@color/white"
         android:text="Tên" />
 
         <LinearLayout
@@ -71,7 +69,6 @@
                 android:id="@+id/textViewArtist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#B2FFFFFF"
                 android:textSize="14dp"
                 android:text="Thể loại" />
         </LinearLayout>

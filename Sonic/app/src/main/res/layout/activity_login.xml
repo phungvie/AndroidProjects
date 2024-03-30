@@ -45,7 +45,6 @@
         android:backgroundTint="@color/primaryColor"
         android:text="Đăng nhập không cần mật khẩu"
         android:textAllCaps="false"
-        android:textColor="@color/black"
         android:textSize="10dp"
 
 

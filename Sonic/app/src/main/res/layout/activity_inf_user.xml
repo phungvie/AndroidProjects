@@ -5,15 +5,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     android:orientation="vertical"
 
     >
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat"
-        >
+        android:theme="@style/ThemeOverlay.AppCompat">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarInf"
@@ -24,11 +23,12 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     </com.google.android.material.appbar.AppBarLayout>
+
     <RelativeLayout
+        android:id="@+id/LayoutGradient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/gradient_background"
-        android:id="@+id/LayoutGradient"
 
         >
 
@@ -74,7 +74,7 @@
                     android:layout_span="5"
                     android:gravity="center"
                     android:text="Tên người dùng"
-                    android:textColor="@color/white"
+
                     android:textSize="25sp" />
 
                 <TextView
@@ -83,7 +83,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textViewName"
                     android:text="0"
-                    android:textColor="@color/white"
 
 
                     />
@@ -94,8 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textViewName"
                     android:layout_toRightOf="@+id/textViewNumberFollowers"
-                    android:text="  người theo dõi"
-                    android:textColor="@color/white" />
+                    android:text="  người theo dõi" />
 
                 <TextView
                     android:id="@+id/textView3"
@@ -111,8 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textViewName"
                     android:layout_toRightOf="@+id/textView3"
-                    android:text="Đang theo dõi "
-                    android:textColor="@color/white" />
+                    android:text="Đang theo dõi " />
 
                 <TextView
                     android:id="@+id/textViewNumberFollowing"
@@ -120,8 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textViewName"
                     android:layout_toRightOf="@+id/textViewFollowing"
-                    android:text="0"
-                    android:textColor="@color/white" />
+                    android:text="0" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -129,7 +125,6 @@
             android:id="@+id/buttonEdit"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
-            android:textSize="11dp"
             android:layout_below="@+id/layoutInf"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
@@ -137,7 +132,8 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/custom_btn"
             android:stateListAnimator="@drawable/btn"
-            android:text="Chỉnh sửa" />
+            android:text="Chỉnh sửa"
+            android:textSize="11dp" />
 
 
     </RelativeLayout>
@@ -146,7 +142,6 @@
     <ListView
         android:id="@+id/list_view_my_playlist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

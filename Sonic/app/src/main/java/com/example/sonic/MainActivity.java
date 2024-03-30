@@ -22,8 +22,11 @@ import android.widget.Toast;
 
 import com.example.sonic.adapter.MyViewPagerAdapter;
 import com.example.sonic.databinding.ActivityMainBinding;
+import com.example.sonic.network.model.UserDTO;
 import com.example.sonic.sharedPreferences.DataLocalManager;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.Optional;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -64,7 +67,13 @@ public class MainActivity extends AppCompatActivity
 
         View headerView=mNavigationView.getHeaderView(0);
         TextView mTextViewNav=headerView.findViewById(R.id.textViewNameNavHeaderMain);
-        mTextViewNav.setText(DataLocalManager.getUserDTO().getName());
+        Optional<UserDTO> OptionalUserDTO=Optional.ofNullable(DataLocalManager.getUserDTO());
+        if(OptionalUserDTO.isPresent()){
+            mTextViewNav.setText(OptionalUserDTO.get().getName());
+        }else{
+            mTextViewNav.setText("null");
+        }
+
 
 
 //
