@@ -48,6 +48,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view_play_or_pause_song"
             app:cardCornerRadius="40dp"
+            android:backgroundTint="@color/white"
             android:layout_toRightOf="@+id/img_skip_previous_song"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -56,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            android:padding="50dp"
+            android:padding="20dp"
             android:stateListAnimator="@drawable/btn"
             android:src="@drawable/ic_play_40" />
         </androidx.cardview.widget.CardView>
