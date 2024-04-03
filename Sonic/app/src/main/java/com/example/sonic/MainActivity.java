@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import com.example.sonic.adapter.MyViewPagerAdapter;
 import com.example.sonic.databinding.ActivityMainBinding;
-import com.example.sonic.network.model.UserDTO;
+import com.example.sonic.model.UserDTO;
 import com.example.sonic.sharedPreferences.DataLocalManager;
 import com.google.android.material.navigation.NavigationView;
 

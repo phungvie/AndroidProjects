@@ -1,4 +1,4 @@
-package com.example.sonic.network.model;
+package com.example.sonic.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

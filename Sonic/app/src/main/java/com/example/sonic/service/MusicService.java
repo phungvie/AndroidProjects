@@ -1,6 +1,5 @@
 package com.example.sonic.service;
 
-import android.app.ForegroundServiceTypeException;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -19,7 +18,7 @@ import androidx.annotation.Nullable;
 import com.example.sonic.MainActivity;
 import com.example.sonic.MyApplication;
 import com.example.sonic.R;
-import com.example.sonic.network.model.SongDTO;
+import com.example.sonic.model.SongDTO;
 import com.example.sonic.network.remote.RetrofitClient;
 
 import java.io.IOException;

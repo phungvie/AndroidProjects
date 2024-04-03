@@ -13,9 +13,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.sonic.network.model.LoginRequest;
-import com.example.sonic.network.model.TokenLogin;
-import com.example.sonic.network.model.UserDTO;
+import com.example.sonic.model.LoginRequest;
+import com.example.sonic.model.TokenLogin;
+import com.example.sonic.model.UserDTO;
 import com.example.sonic.network.remote.APIService;
 import com.example.sonic.network.remote.APIServiceToken;
 import com.example.sonic.network.remote.RetrofitClient;

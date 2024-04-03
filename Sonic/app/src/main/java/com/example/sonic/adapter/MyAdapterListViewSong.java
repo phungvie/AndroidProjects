@@ -10,14 +10,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 
 import com.example.sonic.R;
-import com.example.sonic.network.model.Lib;
-import com.example.sonic.network.model.SongDTO;
-import com.example.sonic.network.remote.APIService;
+import com.example.sonic.model.SongDTO;
 import com.example.sonic.network.remote.RetrofitClient;
-import com.example.sonic.network.remote.RetrofitClientToken;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

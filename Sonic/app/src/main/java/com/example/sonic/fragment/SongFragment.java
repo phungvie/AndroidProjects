@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -16,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.sonic.R;
-import com.example.sonic.network.model.PlaylistDTO;
-import com.example.sonic.network.model.SongDTO;
 import com.example.sonic.service.MusicService;
 import com.example.sonic.sharedPreferences.DataLocalManager;
 

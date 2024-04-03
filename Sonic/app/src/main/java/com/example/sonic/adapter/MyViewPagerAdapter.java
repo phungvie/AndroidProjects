@@ -1,7 +1,6 @@
 package com.example.sonic.adapter;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -11,8 +10,6 @@ import com.example.sonic.fragment.HomeFragment;
 import com.example.sonic.fragment.LibraryFragment;
 import com.example.sonic.fragment.PremiumFragment;
 import com.example.sonic.fragment.SearchFragment;
-import com.example.sonic.fragment.SongFragment;
-import com.example.sonic.network.model.SongDTO;
 
 public class MyViewPagerAdapter extends FragmentStateAdapter {
 

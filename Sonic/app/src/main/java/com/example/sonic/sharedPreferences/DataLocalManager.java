@@ -2,8 +2,8 @@ package com.example.sonic.sharedPreferences;
 
 import android.content.Context;
 
-import com.example.sonic.network.model.SongDTO;
-import com.example.sonic.network.model.UserDTO;
+import com.example.sonic.model.SongDTO;
+import com.example.sonic.model.UserDTO;
 import com.google.gson.Gson;
 
 public class DataLocalManager {

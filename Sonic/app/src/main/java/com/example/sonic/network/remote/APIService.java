@@ -1,11 +1,8 @@
 package com.example.sonic.network.remote;
 
-import com.example.sonic.network.model.ArtistDTO;
-import com.example.sonic.network.model.Lib;
-import com.example.sonic.network.model.LoginRequest;
-import com.example.sonic.network.model.SongDTO;
-import com.example.sonic.network.model.TokenLogin;
-import com.example.sonic.network.model.UserDTO;
+import com.example.sonic.model.LoginRequest;
+import com.example.sonic.model.SongDTO;
+import com.example.sonic.model.TokenLogin;
 
 import java.util.List;
 

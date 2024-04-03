@@ -13,23 +13,23 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 
 import com.example.sonic.R;
-import com.example.sonic.network.model.Lib;
+import com.example.sonic.model.ArtistAndPlaylist;
 import com.example.sonic.network.remote.RetrofitClient;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class MyAdapterListViewLib extends ArrayAdapter<Lib> {
+public class MyAdapterListViewLib extends ArrayAdapter<ArtistAndPlaylist> {
     Context context;
     int layoutResource;
-    List<Lib> mLibs;
+    List<ArtistAndPlaylist> mArtistAndPlaylists;
 
 
-    public MyAdapterListViewLib(@NonNull Context context, int resource, @NonNull List<Lib> objects) {
+    public MyAdapterListViewLib(@NonNull Context context, int resource, @NonNull List<ArtistAndPlaylist> objects) {
         super(context, resource, objects);
         this.context=context;
         this.layoutResource=resource;
-        this.mLibs=objects;
+        this.mArtistAndPlaylists =objects;
 
     }
 
@@ -41,7 +41,7 @@ public class MyAdapterListViewLib extends ArrayAdapter<Lib> {
         LayoutInflater inflater = LayoutInflater.from(context);
         convertView= inflater.inflate(layoutResource,null);
 
-        Lib viet= mLibs.get(position);
+        ArtistAndPlaylist viet= mArtistAndPlaylists.get(position);
 
         if(viet.getPlaylistDTO()!=null){
             ImageView mImageViewLib=convertView.findViewById(R.id.imageViewLib);

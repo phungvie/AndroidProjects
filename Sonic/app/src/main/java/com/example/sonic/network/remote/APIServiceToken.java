@@ -1,15 +1,13 @@
 package com.example.sonic.network.remote;
 
-import com.example.sonic.network.model.ArtistDTO;
-import com.example.sonic.network.model.PlaylistDTO;
-import com.example.sonic.network.model.SongDTO;
-import com.example.sonic.network.model.UserDTO;
+import com.example.sonic.model.ArtistDTO;
+import com.example.sonic.model.PlaylistDTO;
+import com.example.sonic.model.UserDTO;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 
 public interface APIServiceToken {
     @GET("/security/getUser")

@@ -17,16 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sonic.R;
-import com.example.sonic.adapter.MyAdapterListViewLib;
 import com.example.sonic.adapter.MyAdapterListViewSong;
-import com.example.sonic.network.model.ArtistDTO;
-import com.example.sonic.network.model.Lib;
-import com.example.sonic.network.model.PlaylistDTO;
-import com.example.sonic.network.model.SongDTO;
+import com.example.sonic.model.ArtistDTO;
+import com.example.sonic.model.ArtistAndPlaylist;
+import com.example.sonic.model.PlaylistDTO;
+import com.example.sonic.model.SongDTO;
 import com.example.sonic.network.remote.APIService;
-import com.example.sonic.network.remote.APIServiceToken;
 import com.example.sonic.network.remote.RetrofitClient;
-import com.example.sonic.network.remote.RetrofitClientToken;
 import com.example.sonic.sharedPreferences.DataLocalManager;
 import com.squareup.picasso.Picasso;
 
@@ -40,12 +37,12 @@ import retrofit2.Retrofit;
 
 
 public class PlaylistFragment extends Fragment {
-    private Lib mLib;
+    private ArtistAndPlaylist mArtistAndPlaylist;
     private View mView;
     public static List<SongDTO> data ;
 
-    public PlaylistFragment(Lib viet) {
-        this.mLib = viet;
+    public PlaylistFragment(ArtistAndPlaylist viet) {
+        this.mArtistAndPlaylist = viet;
     }
 
     private ListView mListView;
@@ -67,9 +64,9 @@ public class PlaylistFragment extends Fragment {
         mListView.setAdapter(myAdapterListViewSong);
 
         TextView mTextViewNamePlayList = mView.findViewById(R.id.textViewNamePlaylist);
-        if (mLib.getPlaylistDTO() != null) {
+        if (mArtistAndPlaylist.getPlaylistDTO() != null) {
 
-            PlaylistDTO mPlaylistDTO = mLib.getPlaylistDTO();
+            PlaylistDTO mPlaylistDTO = mArtistAndPlaylist.getPlaylistDTO();
 
             Picasso.get().load(RetrofitClient.url+mPlaylistDTO.getImage()).into(mImageView);
 
@@ -102,7 +99,7 @@ public class PlaylistFragment extends Fragment {
             });
 
         } else {
-            ArtistDTO mArtistDTO = mLib.getArtistDTO();
+            ArtistDTO mArtistDTO = mArtistAndPlaylist.getArtistDTO();
 
             Picasso.get().load(RetrofitClient.url+mArtistDTO.getImage()).into(mImageView);
 

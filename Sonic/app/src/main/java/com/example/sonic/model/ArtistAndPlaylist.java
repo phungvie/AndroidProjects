@@ -1,16 +1,14 @@
-package com.example.sonic.network.model;
+package com.example.sonic.model;
 
-import com.google.gson.annotations.Expose;
-
-public class Lib {
+public class ArtistAndPlaylist {
     private final ArtistDTO mArtistDTO;
     private final PlaylistDTO mPlaylistDTO;
 
-    public Lib(ArtistDTO mArtistDTO) {
+    public ArtistAndPlaylist(ArtistDTO mArtistDTO) {
         this.mArtistDTO = mArtistDTO;
         this.mPlaylistDTO = null;
     }
-    public Lib(PlaylistDTO mPlaylistDTO) {
+    public ArtistAndPlaylist(PlaylistDTO mPlaylistDTO) {
         this.mArtistDTO = null;
         this.mPlaylistDTO = mPlaylistDTO;
     }

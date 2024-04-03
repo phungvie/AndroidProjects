@@ -6,28 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.sonic.R;
 import com.example.sonic.adapter.MyAdapterListViewLib;
-import com.example.sonic.network.model.ArtistDTO;
-import com.example.sonic.network.model.Lib;
-import com.example.sonic.network.model.PlaylistDTO;
+import com.example.sonic.model.ArtistDTO;
+import com.example.sonic.model.ArtistAndPlaylist;
+import com.example.sonic.model.PlaylistDTO;
 import com.example.sonic.network.remote.APIServiceToken;
-import com.example.sonic.network.remote.RetrofitClient;
 import com.example.sonic.network.remote.RetrofitClientToken;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +40,7 @@ public class LibraryFragment extends Fragment {
 
     private   ActionBarDrawerToggle.Delegate delegate;
     private  FragmentManager fragmentManager;
-    public static List<Lib> data;
+    public static List<ArtistAndPlaylist> data;
 
     public LibraryFragment(ActionBarDrawerToggle toggle) {
         this.toggle = toggle;
@@ -77,7 +72,7 @@ public class LibraryFragment extends Fragment {
                 if (response.isSuccessful()) {
                     List<ArtistDTO> mArtistsDTO = response.body();
                     for (ArtistDTO ArtistDTO:mArtistsDTO) {
-                        data.add(new Lib(ArtistDTO));
+                        data.add(new ArtistAndPlaylist(ArtistDTO));
                     }
                     myAdapterListViewLib.notifyDataSetChanged();
 
@@ -99,7 +94,7 @@ public class LibraryFragment extends Fragment {
                 if (response.isSuccessful()) {
                     List<PlaylistDTO> mPlaylistsDTO = response.body();
                     for (PlaylistDTO playlistDTO:mPlaylistsDTO) {
-                        data.add(new Lib(playlistDTO));
+                        data.add(new ArtistAndPlaylist(playlistDTO));
                     }
                     myAdapterListViewLib.notifyDataSetChanged();
                 } else {
