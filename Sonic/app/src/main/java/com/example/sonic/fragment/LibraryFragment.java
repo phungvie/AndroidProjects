@@ -21,6 +21,7 @@ import com.example.sonic.adapter.MyAdapterListViewLib;
 import com.example.sonic.model.ArtistDTO;
 import com.example.sonic.model.ArtistAndPlaylist;
 import com.example.sonic.model.PlaylistDTO;
+import com.example.sonic.myInterface.IToggle;
 import com.example.sonic.network.remote.APIServiceToken;
 import com.example.sonic.network.remote.RetrofitClientToken;
 
@@ -36,14 +37,10 @@ public class LibraryFragment extends Fragment {
     private View mView;
     private MyAdapterListViewLib myAdapterListViewLib;
     private  ListView mListView;
-    private ActionBarDrawerToggle toggle;
-
-    private   ActionBarDrawerToggle.Delegate delegate;
-    private  FragmentManager fragmentManager;
+    private IToggle mIToggle;
     public static List<ArtistAndPlaylist> data;
-
-    public LibraryFragment(ActionBarDrawerToggle toggle) {
-        this.toggle = toggle;
+    public LibraryFragment(IToggle iToggle) {
+        this.mIToggle = iToggle;
     }
 
     @Nullable
@@ -116,42 +113,26 @@ public class LibraryFragment extends Fragment {
 
                 activity.findViewById(R.id.view_pager_2).setVisibility(View.GONE);
                 activity.findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
-                activity.getSupportActionBar().setTitle("");
-
+                activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
                 //
-                fragmentManager= activity.getSupportFragmentManager();
+                FragmentManager fragmentManager= activity.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 PlaylistFragment fragment = new PlaylistFragment(data.get(position));
                 fragmentTransaction.replace(R.id.fragment_container, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-
                 //
 //                FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
 //                transaction.replace(R.id.fragment_container, new HomeFragment());
 //                transaction.addToBackStack(null);
 //                transaction.commit();
 
-                toggle.setDrawerIndicatorEnabled(false);
-                toggle.setHomeAsUpIndicator(R.drawable.ic_left);
+                mIToggle.TurnOnTheBackButton();
 
             }
         });
 
-        toggle.setToolbarNavigationClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(fragmentManager.getBackStackEntryCount()==1){
-                    activity.getSupportActionBar().setTitle(R.string.lib);
-                    activity.onBackPressed();
-                    activity.findViewById(R.id.view_pager_2).setVisibility(View.VISIBLE);
-                    activity.findViewById(R.id.fragment_container).setVisibility(View.GONE);
-                    toggle.setDrawerIndicatorEnabled(true);
-                }else{
-                    activity.onBackPressed();
-                }
-            }
-        });
+        mIToggle.setToggle();
         return mView;
 
     }

@@ -80,12 +80,9 @@ public class MusicService extends Service {
     private void sendNotification(SongDTO song) {
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-
         //
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.images);
         //
-
         //
         RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_custom_notification);
         remoteViews.setTextViewText(R.id.tv_title_song, song.getName());

@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.sonic.adapter.MyViewPagerAdapter;
 import com.example.sonic.databinding.ActivityMainBinding;
 import com.example.sonic.model.UserDTO;
+import com.example.sonic.myInterface.IToggle;
 import com.example.sonic.sharedPreferences.DataLocalManager;
 import com.google.android.material.navigation.NavigationView;
 
@@ -40,18 +41,23 @@ public class MainActivity extends AppCompatActivity
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
+//kiểm tra xem đã đăng nhập chưa
         String token = DataLocalManager.getToken();
         if (token.isEmpty()) {
             Intent mIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(mIntent);
         }
-//
+
+
+//không cho vuốt chuyển trang trong viewPager2
         binding.viewPager2.setUserInputEnabled(false);
+        //hiẹue ứng chuyển trang
         //  binding.viewPager2.setPageTransformer(new ZoomOutPageTransformer());
-//
 
 
-//
+
+//cài ActionBarDrawerToggle
         DrawerLayout mDrawerLayout = binding.drawerLayout;
         Toolbar mToolbar = binding.toolbar;
 
@@ -62,6 +68,8 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
+
+//đặt tên cho NavigationView
         NavigationView mNavigationView = binding.navView;
         mNavigationView.setNavigationItemSelectedListener(this);
 
@@ -76,8 +84,37 @@ public class MainActivity extends AppCompatActivity
 
 
 
-//
-        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this,toggle);
+//khở tạo MyViewPagerAdapter và truyền hàm xử lí ActionBarDrawerToggle cho các fragment
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this, new IToggle() {
+            //hàm tắt ActionBarDrawerToggle và đặt icon nút Toggle
+            @Override
+            public void TurnOnTheBackButton() {
+                toggle.setDrawerIndicatorEnabled(false);
+                toggle.setHomeAsUpIndicator(R.drawable.ic_left);
+
+            }
+
+            @Override
+            public void TurnOnToggle() {
+            }
+
+            //khi fragment còn 1 trang cuối cùng thì sẽ quay về view_pager_2 và bật núttoggle
+            @Override
+            public void setToggle() {
+                FragmentManager fragmentManager =getSupportFragmentManager();;
+                toggle.setToolbarNavigationClickListener(v -> {
+                    if(fragmentManager.getBackStackEntryCount()==1){
+                        getSupportActionBar().setDisplayShowTitleEnabled(true);
+                        onBackPressed();
+                        findViewById(R.id.view_pager_2).setVisibility(View.VISIBLE);
+                        findViewById(R.id.fragment_container).setVisibility(View.GONE);
+                        toggle.setDrawerIndicatorEnabled(true);
+                    }else{
+                        onBackPressed();
+                    }
+                });
+            }
+        });
         binding.viewPager2.setAdapter(myViewPagerAdapter);
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {

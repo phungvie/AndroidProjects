@@ -11,16 +11,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sonic.R;
+import com.example.sonic.model.ArtistAndPlaylist;
 import com.example.sonic.model.Category;
+import com.example.sonic.myInterface.IClickItemViet;
 
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
     private Context mContext;
     private static List<Category> data;
+    private IClickItemViet mIClickItemViet;
 
-    public CategoryAdapter(Context context) {
+    public CategoryAdapter(Context context ,IClickItemViet iClickItemViet) {
         this.mContext = context;
+        this.mIClickItemViet=iClickItemViet;
     }
 
     public void setData(List<Category> data) {
@@ -46,7 +50,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false);
         holder.mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        HomePlaylistAdapter homePlaylistAdapter = new HomePlaylistAdapter();
+        HomePlaylistAdapter homePlaylistAdapter = new HomePlaylistAdapter(artistAndPlaylist -> mIClickItemViet.onClickIteam(artistAndPlaylist));
         homePlaylistAdapter.setData(category.getLibs());
         holder.mRecyclerView.setAdapter(homePlaylistAdapter);
     }

@@ -10,13 +10,14 @@ import com.example.sonic.fragment.HomeFragment;
 import com.example.sonic.fragment.LibraryFragment;
 import com.example.sonic.fragment.PremiumFragment;
 import com.example.sonic.fragment.SearchFragment;
+import com.example.sonic.myInterface.IToggle;
 
 public class MyViewPagerAdapter extends FragmentStateAdapter {
 
-    ActionBarDrawerToggle toggle;
-    public MyViewPagerAdapter(@NonNull FragmentActivity fragmentActivity,ActionBarDrawerToggle toggle) {
+    private IToggle mIToggle;
+    public MyViewPagerAdapter(@NonNull FragmentActivity fragmentActivity,IToggle iToggle) {
         super(fragmentActivity);
-        this.toggle=toggle;
+        this.mIToggle=iToggle;
 
 
     }
@@ -27,15 +28,15 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
         switch (position) {
             case 0:
 //                return new SongFragment(new SongDTO(9, "bài hát 9", "", "/data/stream/HayTraoChoAnh-SonTungMTPSnoopDogg-6010660.mp3", null, ""));\
-                return new HomeFragment();
+                return new HomeFragment(mIToggle);
             case 1:
                 return new SearchFragment();
             case 2:
-                return new LibraryFragment(toggle);
+                return new LibraryFragment(mIToggle);
             case 3:
                 return new PremiumFragment();
             default:
-                return new HomeFragment();
+                return new HomeFragment(mIToggle);
 
 
         }
