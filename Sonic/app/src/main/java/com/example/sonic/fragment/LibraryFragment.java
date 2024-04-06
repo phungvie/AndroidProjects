@@ -27,6 +27,7 @@ import com.example.sonic.network.remote.APIServiceToken;
 import com.example.sonic.network.remote.RetrofitClientToken;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,23 +38,26 @@ import retrofit2.Retrofit;
 public class LibraryFragment extends Fragment {
     private View mView;
     private MyAdapterListViewLib myAdapterListViewLib;
-    private  ListView mListView;
+    private ListView mListView;
     private IToggle mIToggle;
     private List<ArtistAndPlaylist> data;
+
     public LibraryFragment(IToggle iToggle) {
         this.mIToggle = iToggle;
     }
+
     AppCompatActivity activity;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView=inflater.inflate(R.layout.fragment_library,container,false);
-         activity = (AppCompatActivity) getActivity();
+        mView = inflater.inflate(R.layout.fragment_library, container, false);
+        activity = (AppCompatActivity) getActivity();
         //
-        mListView=mView.findViewById(R.id.list_view_lib);
+        mListView = mView.findViewById(R.id.list_view_lib);
 //
 
-        data= new ArrayList<>();
+        data = new ArrayList<>();
         myAdapterListViewLib = new MyAdapterListViewLib(activity, R.layout.layout_item, data);
         mListView.setAdapter(myAdapterListViewLib);
 
@@ -67,7 +71,7 @@ public class LibraryFragment extends Fragment {
                 activity.findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
                 activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
                 //
-                FragmentManager fragmentManager= activity.getSupportFragmentManager();
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 PlaylistFragment fragment = new PlaylistFragment(data.get(position));
                 fragmentTransaction.replace(R.id.fragment_container, fragment);
@@ -85,14 +89,14 @@ public class LibraryFragment extends Fragment {
 
         mIToggle.setToggle(this);
 
-                Toast.makeText(getContext(), "viet onCreateView", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "viet onCreateView", Toast.LENGTH_SHORT).show();
 
         return mView;
 
     }
 
 
-    public void vietLoadLib(){
+    public void vietLoadLib() {
         data.clear();
         Retrofit mRetrofit = RetrofitClientToken.getClientToken(null);
         APIServiceToken mApiServiceToken = mRetrofit.create(APIServiceToken.class);
@@ -103,10 +107,11 @@ public class LibraryFragment extends Fragment {
             public void onResponse(Call<List<ArtistDTO>> call, Response<List<ArtistDTO>> response) {
                 if (response.isSuccessful()) {
                     List<ArtistDTO> mArtistsDTO = response.body();
-                    for (ArtistDTO ArtistDTO:mArtistsDTO) {
+                    for (ArtistDTO ArtistDTO : mArtistsDTO) {
                         data.add(new ArtistAndPlaylist(ArtistDTO));
                     }
-                    myAdapterListViewLib.notifyDataSetChanged();
+//                    myAdapterListViewLib.notifyDataSetChanged();
+                    checkNetworkCallsCompleted();
 
                 } else {
                     // Xử lý trường hợp lỗi nếu có
@@ -125,10 +130,12 @@ public class LibraryFragment extends Fragment {
             public void onResponse(Call<List<PlaylistDTO>> call, Response<List<PlaylistDTO>> response) {
                 if (response.isSuccessful()) {
                     List<PlaylistDTO> mPlaylistsDTO = response.body();
-                    for (PlaylistDTO playlistDTO:mPlaylistsDTO) {
+                    for (PlaylistDTO playlistDTO : mPlaylistsDTO) {
                         data.add(new ArtistAndPlaylist(playlistDTO));
                     }
-                    myAdapterListViewLib.notifyDataSetChanged();
+//                    myAdapterListViewLib.notifyDataSetChanged();
+                    checkNetworkCallsCompleted();
+
                 } else {
                     // Xử lý trường hợp lỗi nếu có
                     Log.e("Lỗi lib 3: ", response.code() + "");
@@ -141,10 +148,11 @@ public class LibraryFragment extends Fragment {
             }
         });
     }
-//
-    @Override
-    public void onPause() {
-        super.onPause();
+
+    //
+    private void checkNetworkCallsCompleted() {
+        Collections.sort(data);
+        myAdapterListViewLib.notifyDataSetChanged();
 
     }
 

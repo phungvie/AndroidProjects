@@ -34,6 +34,7 @@ import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -57,7 +58,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        data = new ArrayList<>();
+        data = new ArrayList<Category>();
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         mRecyclerView = mView.findViewById(R.id.rcv_category);
         mCategoryAdapter = new CategoryAdapter(getContext(), artistAndPlaylist -> {
@@ -176,6 +177,7 @@ public class HomeFragment extends Fragment {
         if (networkCallsCompleted == 2) {
             // Cả hai cuộc gọi mạng đã hoàn thành, thêm dữ liệu vào adapter và cập nhật giao diện
             mCategoryAdapter.setData(data);
+
         }
     }
 

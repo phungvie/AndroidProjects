@@ -6,7 +6,7 @@ public class Category {
     private String name;
     private List<ArtistAndPlaylist> artistsAndPlaylists;
 
-    public Category(String name, List<ArtistAndPlaylist> artistsAndPlaylists) {
+    public Category(String name, List<ArtistAndPlaylist> artistsAndPlaylists)  {
         this.name = name;
         this.artistsAndPlaylists = artistsAndPlaylists;
     }
