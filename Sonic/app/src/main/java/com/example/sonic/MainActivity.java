@@ -25,6 +25,7 @@ import com.example.sonic.databinding.ActivityMainBinding;
 import com.example.sonic.fragment.LibraryFragment;
 import com.example.sonic.model.UserDTO;
 import com.example.sonic.myInterface.IToggle;
+import com.example.sonic.network.remote.RetrofitClientToken;
 import com.example.sonic.sharedPreferences.DataLocalManager;
 import com.google.android.material.navigation.NavigationView;
 
@@ -228,8 +229,11 @@ public class MainActivity extends AppCompatActivity
             if (id == R.id.bottom_logout) {
                 DataLocalManager.setToken(null);
                 DataLocalManager.setUserDTO(null);
+                RetrofitClientToken.DestroyRetrofit();
+
                 Intent mIntent = new Intent(this, LoginActivity.class);
                 startActivity(mIntent);
+
             }
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START);

@@ -56,6 +56,7 @@ public class PlaylistFragment extends Fragment {
     private MyAdapterListViewSong myAdapterListViewSong;
 
     private Boolean check = false;
+    TextView mTextViewUserCreate,textView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,12 +64,15 @@ public class PlaylistFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_playlist, container, false);
         data = new ArrayList<>();
 
+
         mImageButtonAdd = mView.findViewById(R.id.img_but_add);
         mImageButtonDownload = mView.findViewById(R.id.img_but_download);
         mImageButtonMore = mView.findViewById(R.id.img_but_more);
 
         ImageView mImageView = mView.findViewById(R.id.imageViewPlayList);
         mListView = mView.findViewById(R.id.ListViewPlaylist);
+
+
 
         myAdapterListViewSong = new MyAdapterListViewSong(getActivity(), R.layout.layout_item_song, data);
         mListView.setAdapter(myAdapterListViewSong);
@@ -85,7 +89,16 @@ public class PlaylistFragment extends Fragment {
         if (mArtistAndPlaylist.getPlaylistDTO() != null) {
 
             PlaylistDTO mPlaylistDTO = mArtistAndPlaylist.getPlaylistDTO();
+            //
+            mTextViewUserCreate=mView.findViewById(R.id.tv_user_create);
+            textView=mView.findViewById(R.id.tv);
 
+            mTextViewUserCreate.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.VISIBLE);
+
+            String htmlcontent ="<b><u>"+mPlaylistDTO.getNameUserCreate()+"</u></b>";
+            mTextViewUserCreate.setText(android.text.Html.fromHtml(htmlcontent));
+            //
             Picasso.get().load(RetrofitClient.url + mPlaylistDTO.getImage()).into(mImageView);
 
             mTextViewNamePlayList.setTextSize(28);

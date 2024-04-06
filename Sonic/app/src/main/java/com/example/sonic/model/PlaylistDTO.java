@@ -9,6 +9,10 @@ public class PlaylistDTO {
     private String name;
     @Expose
     private String image;
+    @Expose
+    private String nameUserCreate;
+    @Expose
+    private Integer IdUserCreate;
 
     public PlaylistDTO(Integer playlistID, String name, String image) {
         this.playlistID = playlistID;
@@ -43,12 +47,30 @@ public class PlaylistDTO {
         this.image = image;
     }
 
+    public String getNameUserCreate() {
+        return nameUserCreate;
+    }
+
+    public void setNameUserCreate(String nameUserCreate) {
+        this.nameUserCreate = nameUserCreate;
+    }
+
+    public Integer getIdUserCreate() {
+        return IdUserCreate;
+    }
+
+    public void setIdUserCreate(Integer idUserCreate) {
+        IdUserCreate = idUserCreate;
+    }
+
     @Override
     public String toString() {
         return "PlaylistDTO{" +
                 "playlistID=" + playlistID +
                 ", name='" + name + '\'' +
                 ", image='" + image + '\'' +
+                ", nameUserCreate='" + nameUserCreate + '\'' +
+                ", IdUserCreate=" + IdUserCreate +
                 '}';
     }
 }

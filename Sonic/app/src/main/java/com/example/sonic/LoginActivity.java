@@ -165,6 +165,10 @@ public class LoginActivity extends AppCompatActivity {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+    private void exitApp() {
+        // Kết thúc tất cả các Activity và thoát khỏi ứng dụng
+        finishAffinity();
+    }
 
 
 }

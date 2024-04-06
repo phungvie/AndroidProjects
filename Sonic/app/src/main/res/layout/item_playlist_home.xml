@@ -39,6 +39,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="13sp"
+        android:textColor="@color/material_on_surface_disabled"
         android:text=" Thể loại" />
 </LinearLayout>
 </androidx.cardview.widget.CardView>
