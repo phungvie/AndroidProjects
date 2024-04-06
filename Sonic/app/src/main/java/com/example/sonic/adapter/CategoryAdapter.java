@@ -19,7 +19,7 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
     private Context mContext;
-    private static List<Category> data;
+    private List<Category> data;
     private IClickItemViet mIClickItemViet;
 
     public CategoryAdapter(Context context ,IClickItemViet iClickItemViet) {
@@ -51,7 +51,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.mRecyclerView.setLayoutManager(linearLayoutManager);
 
         HomePlaylistAdapter homePlaylistAdapter = new HomePlaylistAdapter(artistAndPlaylist -> mIClickItemViet.onClickIteam(artistAndPlaylist));
-        homePlaylistAdapter.setData(category.getLibs());
+        homePlaylistAdapter.setData(category.getArtistsAndPlaylists());
         holder.mRecyclerView.setAdapter(homePlaylistAdapter);
     }
 

@@ -1,6 +1,6 @@
 package com.example.sonic.model;
 
-public class ArtistAndPlaylist {
+public class ArtistAndPlaylist implements Comparable<ArtistAndPlaylist>{
     private final ArtistDTO mArtistDTO;
     private final PlaylistDTO mPlaylistDTO;
 
@@ -28,5 +28,23 @@ public class ArtistAndPlaylist {
                 "mArtistDTO=" + mArtistDTO +
                 ", mPlaylistDTO=" + mPlaylistDTO +
                 '}';
+    }
+
+    @Override
+    public int compareTo(ArtistAndPlaylist o) {
+        if(
+                (this.mArtistDTO!=null && o.mArtistDTO!=null )
+                ||
+                (this.mPlaylistDTO!=null && o.mPlaylistDTO!=null)
+        ){
+           if(this.mArtistDTO.getArtistID()<o.mArtistDTO.getArtistID()){
+               return 1;
+           }else{
+               return -1;
+           }
+        }else{
+            return -1;
+        }
+
     }
 }

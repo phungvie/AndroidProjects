@@ -24,7 +24,7 @@ import java.util.List;
 
 public class HomePlaylistAdapter extends RecyclerView.Adapter<HomePlaylistAdapter.HomePlaylistViewHolder> {
 
-    public static List<ArtistAndPlaylist> data;
+    private List<ArtistAndPlaylist> data;
     private IClickItemViet mIClickItemViet;
     public HomePlaylistAdapter(IClickItemViet iClickItemViet){
         mIClickItemViet=iClickItemViet;

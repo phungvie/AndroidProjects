@@ -19,19 +19,19 @@ public class Category {
         this.name = name;
     }
 
-    public List<ArtistAndPlaylist> getLibs() {
+    public List<ArtistAndPlaylist> getArtistsAndPlaylists() {
         return artistsAndPlaylists;
     }
 
-    public void setLibs(List<ArtistAndPlaylist> artistAndPlaylists) {
-        this.artistsAndPlaylists = artistAndPlaylists;
+    public void setArtistsAndPlaylists(List<ArtistAndPlaylist> artistsAndPlaylists) {
+        this.artistsAndPlaylists = artistsAndPlaylists;
     }
 
     @Override
     public String toString() {
         return "Category{" +
                 "name='" + name + '\'' +
-                ", libs=" + artistsAndPlaylists +
+                ", artistsAndPlaylists=" + artistsAndPlaylists +
                 '}';
     }
 }

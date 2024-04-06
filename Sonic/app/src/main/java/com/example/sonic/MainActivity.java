@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.sonic.adapter.MyViewPagerAdapter;
 import com.example.sonic.databinding.ActivityMainBinding;
+import com.example.sonic.fragment.LibraryFragment;
 import com.example.sonic.model.UserDTO;
 import com.example.sonic.myInterface.IToggle;
 import com.example.sonic.sharedPreferences.DataLocalManager;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ActivityMainBinding binding;
     ActionBarDrawerToggle toggle;
+    LibraryFragment libraryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,6 @@ public class MainActivity extends AppCompatActivity
         //  binding.viewPager2.setPageTransformer(new ZoomOutPageTransformer());
 
 
-
 //cài ActionBarDrawerToggle
         DrawerLayout mDrawerLayout = binding.drawerLayout;
         Toolbar mToolbar = binding.toolbar;
@@ -73,15 +74,14 @@ public class MainActivity extends AppCompatActivity
         NavigationView mNavigationView = binding.navView;
         mNavigationView.setNavigationItemSelectedListener(this);
 
-        View headerView=mNavigationView.getHeaderView(0);
-        TextView mTextViewNav=headerView.findViewById(R.id.textViewNameNavHeaderMain);
-        Optional<UserDTO> OptionalUserDTO=Optional.ofNullable(DataLocalManager.getUserDTO());
-        if(OptionalUserDTO.isPresent()){
+        View headerView = mNavigationView.getHeaderView(0);
+        TextView mTextViewNav = headerView.findViewById(R.id.textViewNameNavHeaderMain);
+        Optional<UserDTO> OptionalUserDTO = Optional.ofNullable(DataLocalManager.getUserDTO());
+        if (OptionalUserDTO.isPresent()) {
             mTextViewNav.setText(OptionalUserDTO.get().getName());
-        }else{
+        } else {
             mTextViewNav.setText("null");
         }
-
 
 
 //khở tạo MyViewPagerAdapter và truyền hàm xử lí ActionBarDrawerToggle cho các fragment
@@ -100,16 +100,18 @@ public class MainActivity extends AppCompatActivity
 
             //khi fragment còn 1 trang cuối cùng thì sẽ quay về view_pager_2 và bật núttoggle
             @Override
-            public void setToggle() {
-                FragmentManager fragmentManager =getSupportFragmentManager();;
+            public void setToggle(LibraryFragment libraryFragment) {
                 toggle.setToolbarNavigationClickListener(v -> {
-                    if(fragmentManager.getBackStackEntryCount()==1){
+                    if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
                         getSupportActionBar().setDisplayShowTitleEnabled(true);
                         onBackPressed();
                         findViewById(R.id.view_pager_2).setVisibility(View.VISIBLE);
                         findViewById(R.id.fragment_container).setVisibility(View.GONE);
                         toggle.setDrawerIndicatorEnabled(true);
-                    }else{
+                        if(libraryFragment!=null){
+                            libraryFragment.vietLoadLib();
+                        }
+                    } else {
                         onBackPressed();
                     }
                 });
@@ -277,7 +279,16 @@ public class MainActivity extends AppCompatActivity
                     }
                 }, 2000); // Thời gian cho phép ấn back lần thứ hai
             } else {
-                super.onBackPressed();
+                if(getSupportFragmentManager().getBackStackEntryCount() == 1){
+                    getSupportActionBar().setDisplayShowTitleEnabled(true);
+                    findViewById(R.id.view_pager_2).setVisibility(View.VISIBLE);
+                    findViewById(R.id.fragment_container).setVisibility(View.GONE);
+                    toggle.setDrawerIndicatorEnabled(true);
+                    super.onBackPressed();
+                }else{
+                    super.onBackPressed();
+                }
+
             }
         }
 

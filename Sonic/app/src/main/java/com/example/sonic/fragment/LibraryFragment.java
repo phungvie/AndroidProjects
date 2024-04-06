@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,27 +39,61 @@ public class LibraryFragment extends Fragment {
     private MyAdapterListViewLib myAdapterListViewLib;
     private  ListView mListView;
     private IToggle mIToggle;
-    public static List<ArtistAndPlaylist> data;
+    private List<ArtistAndPlaylist> data;
     public LibraryFragment(IToggle iToggle) {
         this.mIToggle = iToggle;
     }
-
+    AppCompatActivity activity;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView=inflater.inflate(R.layout.fragment_library,container,false);
-
-//
-       data= new ArrayList<>();
-        //
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
+         activity = (AppCompatActivity) getActivity();
         //
         mListView=mView.findViewById(R.id.list_view_lib);
+//
 
+        data= new ArrayList<>();
         myAdapterListViewLib = new MyAdapterListViewLib(activity, R.layout.layout_item, data);
         mListView.setAdapter(myAdapterListViewLib);
 
+        vietLoadLib();
+//
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                activity.findViewById(R.id.view_pager_2).setVisibility(View.GONE);
+                activity.findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+                activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                //
+                FragmentManager fragmentManager= activity.getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                PlaylistFragment fragment = new PlaylistFragment(data.get(position));
+                fragmentTransaction.replace(R.id.fragment_container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                //
+//                FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.fragment_container, new HomeFragment());
+//                transaction.addToBackStack(null);
+//                transaction.commit();
+
+                mIToggle.TurnOnTheBackButton();
+            }
+        });
+
+        mIToggle.setToggle(this);
+
+                Toast.makeText(getContext(), "viet onCreateView", Toast.LENGTH_SHORT).show();
+
+        return mView;
+
+    }
+
+
+    public void vietLoadLib(){
+        data.clear();
         Retrofit mRetrofit = RetrofitClientToken.getClientToken(null);
         APIServiceToken mApiServiceToken = mRetrofit.create(APIServiceToken.class);
 
@@ -105,40 +140,18 @@ public class LibraryFragment extends Fragment {
                 Log.e("Lỗi lib 4: ", t.getMessage());
             }
         });
-
-
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                activity.findViewById(R.id.view_pager_2).setVisibility(View.GONE);
-                activity.findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
-                activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-                //
-                FragmentManager fragmentManager= activity.getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                PlaylistFragment fragment = new PlaylistFragment(data.get(position));
-                fragmentTransaction.replace(R.id.fragment_container, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-                //
-//                FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-//                transaction.replace(R.id.fragment_container, new HomeFragment());
-//                transaction.addToBackStack(null);
-//                transaction.commit();
-
-                mIToggle.TurnOnTheBackButton();
-
-            }
-        });
-
-        mIToggle.setToggle();
-        return mView;
+    }
+//
+    @Override
+    public void onPause() {
+        super.onPause();
 
     }
 
-
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        vietLoadLib();
+    }
 
 }

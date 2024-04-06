@@ -16,10 +16,12 @@ public interface APIService {
     @POST("/security/login")
     Call<TokenLogin> loginToken(@Body LoginRequest loginRequest);
 
-    @GET("/sonic/playlist/songs/{id}")
+    @GET("/sonic/playlist/{id}/songs")
     Call<List<SongDTO>> getSongsInPlaylist(@Path("id") Integer id);
 
-    @GET("/sonic/artist/songs/{id}")
+    @GET("/sonic/artist/{id}/songs")
     Call<List<SongDTO>> getSongsOfArtist(@Path("id") Integer id);
+
+
     
 }
