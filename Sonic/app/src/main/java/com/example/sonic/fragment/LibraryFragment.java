@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,10 +41,18 @@ public class LibraryFragment extends Fragment {
     private MyAdapterListViewLib myAdapterListViewLib;
     private ListView mListView;
     private IToggle mIToggle;
+    ProgressBar mProgressBar;
     private List<ArtistAndPlaylist> data;
 
-    public LibraryFragment(IToggle iToggle) {
-        this.mIToggle = iToggle;
+    public LibraryFragment() {
+    }
+
+    public IToggle getmIToggle() {
+        return mIToggle;
+    }
+
+    public void setmIToggle(IToggle mIToggle) {
+        this.mIToggle = mIToggle;
     }
 
     AppCompatActivity activity;
@@ -52,6 +61,8 @@ public class LibraryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_library, container, false);
+
+        mProgressBar=mView.findViewById(R.id.ProgressBarLib);
         activity = (AppCompatActivity) getActivity();
         //
         mListView = mView.findViewById(R.id.list_view_lib);
@@ -96,7 +107,8 @@ public class LibraryFragment extends Fragment {
     }
 
 
-    public void vietLoadLib() {
+    public   void vietLoadLib() {
+        mProgressBar.setVisibility(View.VISIBLE);
         data.clear();
         Retrofit mRetrofit = RetrofitClientToken.getClientToken(null);
         APIServiceToken mApiServiceToken = mRetrofit.create(APIServiceToken.class);
@@ -112,6 +124,7 @@ public class LibraryFragment extends Fragment {
                     }
 //                    myAdapterListViewLib.notifyDataSetChanged();
                     checkNetworkCallsCompleted();
+                    mProgressBar.setVisibility(View.GONE);
 
                 } else {
                     // Xử lý trường hợp lỗi nếu có
@@ -135,7 +148,7 @@ public class LibraryFragment extends Fragment {
                     }
 //                    myAdapterListViewLib.notifyDataSetChanged();
                     checkNetworkCallsCompleted();
-
+                    mProgressBar.setVisibility(View.GONE);
                 } else {
                     // Xử lý trường hợp lỗi nếu có
                     Log.e("Lỗi lib 3: ", response.code() + "");
@@ -153,7 +166,6 @@ public class LibraryFragment extends Fragment {
     private void checkNetworkCallsCompleted() {
         Collections.sort(data);
         myAdapterListViewLib.notifyDataSetChanged();
-
     }
 
     @Override
@@ -161,5 +173,6 @@ public class LibraryFragment extends Fragment {
         super.onResume();
         vietLoadLib();
     }
+
 
 }

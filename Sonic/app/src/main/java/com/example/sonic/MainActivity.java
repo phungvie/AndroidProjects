@@ -86,7 +86,8 @@ public class MainActivity extends AppCompatActivity
 
 
 //khở tạo MyViewPagerAdapter và truyền hàm xử lí ActionBarDrawerToggle cho các fragment
-        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this, new IToggle() {
+        MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter(this);
+        myViewPagerAdapter.setmIToggle( new IToggle() {
             //hàm tắt ActionBarDrawerToggle và đặt icon nút Toggle
             @Override
             public void TurnOnTheBackButton() {
@@ -118,6 +119,7 @@ public class MainActivity extends AppCompatActivity
                 });
             }
         });
+
         binding.viewPager2.setAdapter(myViewPagerAdapter);
 
         binding.bottomNavigation.setOnItemSelectedListener(item -> {

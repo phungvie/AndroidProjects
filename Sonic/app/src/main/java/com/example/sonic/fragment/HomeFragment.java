@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.example.sonic.model.Category;
 import com.example.sonic.model.PlaylistDTO;
 import com.example.sonic.myInterface.IClickItemViet;
 import com.example.sonic.myInterface.IToggle;
+import com.example.sonic.myInterface.PaginationScrollListener;
 import com.example.sonic.network.remote.APIServiceToken;
 import com.example.sonic.network.remote.RetrofitClientToken;
 import com.google.common.collect.Lists;
@@ -49,7 +51,20 @@ public class HomeFragment extends Fragment {
     private CategoryAdapter mCategoryAdapter;
     private List<Category> data;
 
-    public HomeFragment(IToggle mIToggle) {
+    ProgressBar mProgressBar;
+//    private boolean isLoading;
+//    private boolean isLastPage;
+//    private int currentPage = 1;
+//    private int totalPage = 2;
+
+    public HomeFragment() {
+    }
+
+    public IToggle getmIToggle() {
+        return mIToggle;
+    }
+
+    public void setmIToggle(IToggle mIToggle) {
         this.mIToggle = mIToggle;
     }
 
@@ -57,6 +72,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        mProgressBar = mView.findViewById(R.id.ProgressBarHome);
 
         data = new ArrayList<Category>();
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -77,24 +94,60 @@ public class HomeFragment extends Fragment {
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
+//        mRecyclerView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
+//            @Override
+//            public void loadMoreItems() {
+//
+//                isLoading = true;
+//                mProgressBar.setVisibility(View.VISIBLE);
+//                currentPage += 1;
+//                loadNextPage();
+//            }
+//
+//            @Override
+//            public boolean isLoading() {
+//                return isLoading;
+//            }
+//
+//            @Override
+//            public boolean isLastPage() {
+//                return isLastPage;
+//            }
+//        });
         mRecyclerView.setAdapter(mCategoryAdapter);
         callApiGetCategory();
 
         mIToggle.setToggle(null);
 
 
-        mCategoryAdapter.setData(data);
         return mView;
     }
 
 
-    private int networkCallsCompleted = 0;
+//    private void loadNextPage() {
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                check = false;
+//                List<Category> list = callApiGetCategory();
+//                data.addAll(list);
+//                mCategoryAdapter.setData(data);
+//                isLoading = false;
+//                mProgressBar.setVisibility(View.GONE);
+//                if (currentPage == totalPage) {
+//                    isLastPage = true;
+//                }
+//            }
+//        }, 3000);
+//    }
+
 
     private void callApiGetCategory() {
-
+        mProgressBar.setVisibility(View.VISIBLE);
         Retrofit mRetrofit = RetrofitClientToken.getClientToken(null);
         APIServiceToken mApiServiceToken = mRetrofit.create(APIServiceToken.class);
-
+        List<Category> data2 = new ArrayList<>();
         mApiServiceToken.getAllArtists().enqueue(new Callback<List<ArtistDTO>>() {
             @Override
             public void onResponse(Call<List<ArtistDTO>> call, Response<List<ArtistDTO>> response) {
@@ -105,29 +158,21 @@ public class HomeFragment extends Fragment {
                     for (ArtistDTO artistDTO : artistsDTO) {
                         viet.add(new ArtistAndPlaylist(artistDTO));
                     }
+
+
                     data.add(new Category("Các nghệ sĩ", viet));
-                    // Tăng biến đếm khi cuộc gọi mạng hoàn thành
-                    networkCallsCompleted++;
-                    // Gọi hàm kiểm tra hoàn thành cuộc gọi mạng
-                    checkNetworkCallsCompleted();
+                    mCategoryAdapter.setData(data);
+                    mProgressBar.setVisibility(View.GONE);
 
                 } else {
                     // Xử lý trường hợp lỗi nếu có
                     Log.e("Lỗi home 1: ", response.code() + "");
-                    // Tăng biến đếm khi cuộc gọi mạng hoàn thành (dù thất bại)
-                    networkCallsCompleted++;
-                    // Gọi hàm kiểm tra hoàn thành cuộc gọi mạng
-                    checkNetworkCallsCompleted();
                 }
             }
 
             @Override
             public void onFailure(Call<List<ArtistDTO>> call, Throwable t) {
                 Log.e("Lỗi home 2: ", t.getMessage());
-                // Tăng biến đếm khi cuộc gọi mạng hoàn thành (dù thất bại)
-                networkCallsCompleted++;
-                // Gọi hàm kiểm tra hoàn thành cuộc gọi mạng
-                checkNetworkCallsCompleted();
             }
         });
 
@@ -143,42 +188,25 @@ public class HomeFragment extends Fragment {
                         viet.add(new ArtistAndPlaylist(playlistDTO));
                     }
 
+
                     data.add(new Category("Các danh sách phát", viet));
-                    // Tăng biến đếm khi cuộc gọi mạng hoàn thành
-                    networkCallsCompleted++;
-                    // Gọi hàm kiểm tra hoàn thành cuộc gọi mạng
-                    checkNetworkCallsCompleted();
+                    mCategoryAdapter.setData(data);
+                    mProgressBar.setVisibility(View.GONE);
 
                 } else {
                     // Xử lý trường hợp lỗi nếu có
                     Log.e("Lỗi home 1*: ", response.code() + "");
-                    // Tăng biến đếm khi cuộc gọi mạng hoàn thành (dù thất bại)
-                    networkCallsCompleted++;
-                    // Gọi hàm kiểm tra hoàn thành cuộc gọi mạng
-                    checkNetworkCallsCompleted();
                 }
             }
 
             @Override
             public void onFailure(Call<List<PlaylistDTO>> call, Throwable t) {
                 Log.e("Lỗi home 2*: ", t.getMessage());
-                // Tăng biến đếm khi cuộc gọi mạng hoàn thành (dù thất bại)
-                networkCallsCompleted++;
-                checkNetworkCallsCompleted();
-                // Gọi hàm kiểm tra hoàn thành cuộc gọi mạng
-                checkNetworkCallsCompleted();
             }
         });
-    }
 
-    private void checkNetworkCallsCompleted() {
-//        testdata.setText(data.toString());
-        // Kiểm tra xem cả hai cuộc gọi mạng đã hoàn thành hay chưa
-        if (networkCallsCompleted == 2) {
-            // Cả hai cuộc gọi mạng đã hoàn thành, thêm dữ liệu vào adapter và cập nhật giao diện
-            mCategoryAdapter.setData(data);
 
-        }
+
     }
 
 

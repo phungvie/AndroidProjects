@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.sonic.model.LoginRequest;
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button mButtonLogin;
     private EditText mEditTextUsername, mEditTextPassword;
     ImageView mImageView;
+    ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         mEditTextUsername = findViewById(R.id.editTextUsername);
         mEditTextPassword = findViewById(R.id.editTextPassword);
         mImageView = findViewById(R.id.dataImg);
+        mProgressBar=findViewById(R.id.ProgressBarLogin);
 
         if (!DataLocalManager.getFirstIntstalled()) {
             Toast.makeText(this, "Lần mở ứng dụng đầu tiên", Toast.LENGTH_LONG).show();
@@ -93,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginToken(String username, String passwword) {
+        mProgressBar.setVisibility(View.VISIBLE);
         APIService mAPIService = RetrofitClient.getClient().create(APIService.class);
 
         mAPIService.loginToken(new LoginRequest(username, passwword))
@@ -100,13 +104,14 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<TokenLogin> call, Response<TokenLogin> response) {
                         String token;
-
                         if (response.isSuccessful()) {
                             TokenLogin tl = response.body();
                             token = "Bearer " + tl.getAccessToken();
                             DataLocalManager.setToken(token);
                             // lưu dữ liệu vào sharedPre
                             attachTokenToHeader();
+                            mProgressBar.setVisibility(View.GONE);
+
                         } else {
                             // Xử lý trường hợp lỗi nếu có
                             Log.e("Lỗi 1: ", response.code() + "");

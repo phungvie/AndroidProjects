@@ -15,11 +15,18 @@ import com.example.sonic.myInterface.IToggle;
 public class MyViewPagerAdapter extends FragmentStateAdapter {
 
     private IToggle mIToggle;
-    public MyViewPagerAdapter(@NonNull FragmentActivity fragmentActivity,IToggle iToggle) {
+    public MyViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
-        this.mIToggle=iToggle;
 
 
+    }
+
+    public IToggle getmIToggle() {
+        return mIToggle;
+    }
+
+    public void setmIToggle(IToggle mIToggle) {
+        this.mIToggle = mIToggle;
     }
 
     @NonNull
@@ -28,15 +35,21 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
         switch (position) {
             case 0:
 //                return new SongFragment(new SongDTO(9, "bài hát 9", "", "/data/stream/HayTraoChoAnh-SonTungMTPSnoopDogg-6010660.mp3", null, ""));\
-                return new HomeFragment(mIToggle);
+                HomeFragment viet01=new HomeFragment();
+                viet01.setmIToggle(mIToggle);
+                return viet01;
             case 1:
                 return new SearchFragment();
             case 2:
-                return new LibraryFragment(mIToggle);
+                LibraryFragment viet03=new LibraryFragment();
+                viet03.setmIToggle(mIToggle);
+                return viet03;
             case 3:
                 return new PremiumFragment();
             default:
-                return new HomeFragment(mIToggle);
+                HomeFragment viet0=new HomeFragment();
+                viet0.setmIToggle(mIToggle);
+                return viet0;
 
 
         }
