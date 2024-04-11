@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         mEditTextUsername = findViewById(R.id.editTextUsername);
         mEditTextPassword = findViewById(R.id.editTextPassword);
         mImageView = findViewById(R.id.dataImg);
-        mProgressBar=findViewById(R.id.ProgressBarLogin);
+        mProgressBar = findViewById(R.id.ProgressBarLogin);
 
         if (!DataLocalManager.getFirstIntstalled()) {
             Toast.makeText(this, "Lần mở ứng dụng đầu tiên", Toast.LENGTH_LONG).show();
@@ -62,18 +62,19 @@ public class LoginActivity extends AppCompatActivity {
             mButtonLogin.setOnClickListener(v -> {
                 String username = mEditTextUsername.getText().toString().trim();
                 String password = mEditTextPassword.getText().toString().trim();
-                hideKeyboard(this,v);
-                if (!username.isEmpty() && !password.isEmpty()) {
-                    loginToken(username, password);
-                } else {
-                    Toast.makeText(this, "Phải nhập đủ thông tin", Toast.LENGTH_SHORT).show();
-                }
-
-
-                if (DataLocalManager.getUserDTO()!=null) {
+                hideKeyboard(this, v);
+                if (!DataLocalManager.getToken().isEmpty()) {
                     Intent mIntent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(mIntent);
+                } else {
+                    if (!username.isEmpty() && !password.isEmpty()) {
+                        loginToken(username, password);
+
+                    } else {
+                        Toast.makeText(this, "Phải nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+                    }
                 }
+
             });
         }
 //        Intent mIntent = new Intent(LoginActivity.this, MainActivity.class);
@@ -92,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         //chuyển hướng đến uerF
 
 
-        Picasso.get().load(RetrofitClient.url+"/data/img/anh1.jpg").into(mImageView);
+        Picasso.get().load(RetrofitClient.url + "/data/img/anh1.jpg").into(mImageView);
     }
 
     public void loginToken(String username, String passwword) {
@@ -104,18 +105,17 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<TokenLogin> call, Response<TokenLogin> response) {
                         String token;
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful() && response.body() != null) {
                             TokenLogin tl = response.body();
                             token = "Bearer " + tl.getAccessToken();
-                            DataLocalManager.setToken(token);
-                            // lưu dữ liệu vào sharedPre
-                            attachTokenToHeader();
-                            mProgressBar.setVisibility(View.GONE);
+                            DataLocalManager.setToken(token);// lưu dữ liệu vào sharedPre
+                            attachTokenToHeader(token);
 
                         } else {
                             // Xử lý trường hợp lỗi nếu có
                             Log.e("Lỗi 1: ", response.code() + "");
                             Toast.makeText(LoginActivity.this, "Lỗi 1: " + response.code(), Toast.LENGTH_SHORT).show();
+                            mProgressBar.setVisibility(View.GONE);
                         }
                     }
 
@@ -123,14 +123,14 @@ public class LoginActivity extends AppCompatActivity {
                     public void onFailure(Call<TokenLogin> call, Throwable t) {
                         Log.e("Lỗi 2: ", t.getMessage());
                         Toast.makeText(LoginActivity.this, "Lỗi 2: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                        mProgressBar.setVisibility(View.GONE);
                     }
                 });
     }
 
 
-    private static void attachTokenToHeader() {
+    private void attachTokenToHeader(String token) {
         //gắn token vào header
-        String token = DataLocalManager.getToken();
         Interceptor mInterceptor = chain -> {
             Request mRequest = chain.request();
             Request.Builder mBuilder = mRequest.newBuilder();
@@ -140,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
         OkHttpClient.Builder mOkBuilder = new OkHttpClient.Builder().addInterceptor(mInterceptor);
 
         //
+        RetrofitClientToken.DestroyRetrofit();
         Retrofit mRetrofit = RetrofitClientToken.getClientToken(mOkBuilder);
 
         //lấy user
@@ -150,26 +151,31 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     UserDTO mUserDTO = response.body();
                     DataLocalManager.setUserDTO(mUserDTO);
+                    mProgressBar.setVisibility(View.GONE);
                 } else {
                     // Xử lý trường hợp lỗi nếu có
                     Log.e("Lỗi 3: ", response.code() + "");
+                    mProgressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<UserDTO> call, Throwable t) {
                 Log.e("Lỗi 4: ", t.getMessage());
+                mProgressBar.setVisibility(View.GONE);
             }
         });
     }
 
-    public static void hideKeyboard(Context context, View view) {
+    public static void
+    hideKeyboard(Context context, View view) {
         if (context == null || view == null) {
             return;
         }
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
     private void exitApp() {
         // Kết thúc tất cả các Activity và thoát khỏi ứng dụng
         finishAffinity();

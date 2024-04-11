@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private ActivityMainBinding binding;
     ActionBarDrawerToggle toggle;
-    LibraryFragment libraryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class MainActivity extends AppCompatActivity
 
 //kiểm tra xem đã đăng nhập chưa
         String token = DataLocalManager.getToken();
-        if (token.isEmpty()) {
+        if (token.isEmpty()||token==null) {
             Intent mIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(mIntent);
         }

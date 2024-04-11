@@ -1,14 +1,11 @@
 package com.example.sonic.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,19 +23,14 @@ import com.example.sonic.model.ArtistDTO;
 import com.example.sonic.model.ArtistAndPlaylist;
 import com.example.sonic.model.Category;
 import com.example.sonic.model.PlaylistDTO;
-import com.example.sonic.myInterface.IClickItemViet;
 import com.example.sonic.myInterface.IToggle;
-import com.example.sonic.myInterface.PaginationScrollListener;
 import com.example.sonic.network.remote.APIServiceToken;
 import com.example.sonic.network.remote.RetrofitClientToken;
-import com.google.common.collect.Lists;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -52,12 +44,14 @@ public class HomeFragment extends Fragment {
     private List<Category> data;
 
     ProgressBar mProgressBar;
-//    private boolean isLoading;
+    //    private boolean isLoading;
 //    private boolean isLastPage;
 //    private int currentPage = 1;
 //    private int totalPage = 2;
+    Retrofit mRetrofit;
 
     public HomeFragment() {
+        data = new ArrayList<>();
     }
 
     public IToggle getmIToggle() {
@@ -75,14 +69,15 @@ public class HomeFragment extends Fragment {
 
         mProgressBar = mView.findViewById(R.id.ProgressBarHome);
 
-        data = new ArrayList<Category>();
+        mRetrofit = RetrofitClientToken.getClientToken(new OkHttpClient.Builder());
+
+
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         mRecyclerView = mView.findViewById(R.id.rcv_category);
         mCategoryAdapter = new CategoryAdapter(getContext(), artistAndPlaylist -> {
             activity.findViewById(R.id.view_pager_2).setVisibility(View.GONE);
             activity.findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
             activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-
             //
             FragmentManager fragmentManager = activity.getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -94,28 +89,7 @@ public class HomeFragment extends Fragment {
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-//        mRecyclerView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
-//            @Override
-//            public void loadMoreItems() {
-//
-//                isLoading = true;
-//                mProgressBar.setVisibility(View.VISIBLE);
-//                currentPage += 1;
-//                loadNextPage();
-//            }
-//
-//            @Override
-//            public boolean isLoading() {
-//                return isLoading;
-//            }
-//
-//            @Override
-//            public boolean isLastPage() {
-//                return isLastPage;
-//            }
-//        });
         mRecyclerView.setAdapter(mCategoryAdapter);
-        callApiGetCategory();
 
         mIToggle.setToggle(null);
 
@@ -124,35 +98,15 @@ public class HomeFragment extends Fragment {
     }
 
 
-//    private void loadNextPage() {
-//        Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                check = false;
-//                List<Category> list = callApiGetCategory();
-//                data.addAll(list);
-//                mCategoryAdapter.setData(data);
-//                isLoading = false;
-//                mProgressBar.setVisibility(View.GONE);
-//                if (currentPage == totalPage) {
-//                    isLastPage = true;
-//                }
-//            }
-//        }, 3000);
-//    }
-
-
     private void callApiGetCategory() {
+        data.clear();
         mProgressBar.setVisibility(View.VISIBLE);
-        Retrofit mRetrofit = RetrofitClientToken.getClientToken(null);
         APIServiceToken mApiServiceToken = mRetrofit.create(APIServiceToken.class);
-        List<Category> data2 = new ArrayList<>();
         mApiServiceToken.getAllArtists().enqueue(new Callback<List<ArtistDTO>>() {
             @Override
             public void onResponse(Call<List<ArtistDTO>> call, Response<List<ArtistDTO>> response) {
 
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     List<ArtistDTO> artistsDTO = response.body();
                     List<ArtistAndPlaylist> viet = new ArrayList<>();
                     for (ArtistDTO artistDTO : artistsDTO) {
@@ -181,7 +135,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onResponse(Call<List<PlaylistDTO>> call, Response<List<PlaylistDTO>> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && response.body() != null) {
                     List<PlaylistDTO> playlistsDTO = response.body();
                     List<ArtistAndPlaylist> viet = new ArrayList<>();
                     for (PlaylistDTO playlistDTO : playlistsDTO) {
@@ -206,8 +160,14 @@ public class HomeFragment extends Fragment {
         });
 
 
-
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        callApiGetCategory();
+
+    }
 
 }

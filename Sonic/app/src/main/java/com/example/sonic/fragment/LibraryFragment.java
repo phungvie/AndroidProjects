@@ -62,7 +62,7 @@ public class LibraryFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_library, container, false);
 
-        mProgressBar=mView.findViewById(R.id.ProgressBarLib);
+        mProgressBar = mView.findViewById(R.id.ProgressBarLib);
         activity = (AppCompatActivity) getActivity();
         //
         mListView = mView.findViewById(R.id.list_view_lib);
@@ -72,7 +72,6 @@ public class LibraryFragment extends Fragment {
         myAdapterListViewLib = new MyAdapterListViewLib(activity, R.layout.layout_item, data);
         mListView.setAdapter(myAdapterListViewLib);
 
-        vietLoadLib();
 //
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -106,8 +105,7 @@ public class LibraryFragment extends Fragment {
 
     }
 
-
-    public   void vietLoadLib() {
+    public void vietLoadLib() {
         mProgressBar.setVisibility(View.VISIBLE);
         data.clear();
         Retrofit mRetrofit = RetrofitClientToken.getClientToken(null);
