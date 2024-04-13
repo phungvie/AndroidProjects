@@ -48,4 +48,6 @@ public interface APIServiceToken {
     //lấy tất cả danh sách các nghệ sĩ
     @GET("/sonic/user/artists")
     Call<List<ArtistDTO>> getAllArtists();
+
+
 }
