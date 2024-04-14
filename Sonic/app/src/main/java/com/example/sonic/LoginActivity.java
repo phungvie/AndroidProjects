@@ -114,7 +114,6 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             // Xử lý trường hợp lỗi nếu có
                             Log.e("Lỗi 1: ", response.code() + "");
-                            Toast.makeText(LoginActivity.this, "Lỗi 1: " + response.code(), Toast.LENGTH_SHORT).show();
                             mProgressBar.setVisibility(View.GONE);
                         }
                     }
@@ -122,7 +121,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<TokenLogin> call, Throwable t) {
                         Log.e("Lỗi 2: ", t.getMessage());
-                        Toast.makeText(LoginActivity.this, "Lỗi 2: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                         mProgressBar.setVisibility(View.GONE);
                     }
                 });

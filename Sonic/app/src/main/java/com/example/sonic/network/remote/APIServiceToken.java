@@ -12,6 +12,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface APIServiceToken {
     @GET("/security/getUser")
@@ -48,6 +49,11 @@ public interface APIServiceToken {
     //lấy tất cả danh sách các nghệ sĩ
     @GET("/sonic/user/artists")
     Call<List<ArtistDTO>> getAllArtists();
+
+    @GET("/vnpay/create_payment")
+    Call<VietMessage> createPayment(@Query("amount")String amount);
+    @GET("/sonic/checkPremium")
+    Call<Boolean> checkPremium();
 
 
 }

@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,6 +20,7 @@ import com.example.sonic.R;
 import com.example.sonic.adapter.MyAdapterListViewSong;
 import com.example.sonic.model.ArtistDTO;
 import com.example.sonic.model.ArtistAndPlaylist;
+import com.example.sonic.model.Find;
 import com.example.sonic.model.PlaylistDTO;
 import com.example.sonic.model.SongDTO;
 import com.example.sonic.model.VietMessage;
@@ -51,7 +51,6 @@ public class PlaylistFragment extends Fragment {
     public PlaylistFragment(ArtistAndPlaylist viet) {
         this.mArtistAndPlaylist = viet;
     }
-
     private ListView mListView;
     private MyAdapterListViewSong myAdapterListViewSong;
 
@@ -74,7 +73,7 @@ public class PlaylistFragment extends Fragment {
 
 
 
-        myAdapterListViewSong = new MyAdapterListViewSong(getActivity(), R.layout.layout_item_song, data);
+        myAdapterListViewSong = new MyAdapterListViewSong(getActivity(), R.layout.item_song, data);
         mListView.setAdapter(myAdapterListViewSong);
 
         TextView mTextViewNamePlayList = mView.findViewById(R.id.textViewNamePlaylist);

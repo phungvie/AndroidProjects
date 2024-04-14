@@ -39,7 +39,9 @@ public class MyViewPagerAdapter extends FragmentStateAdapter {
                 viet01.setmIToggle(mIToggle);
                 return viet01;
             case 1:
-                return new SearchFragment();
+                SearchFragment viet02=new SearchFragment();
+                viet02.setmIToggle(mIToggle);
+                return viet02;
             case 2:
                 LibraryFragment viet03=new LibraryFragment();
                 viet03.setmIToggle(mIToggle);

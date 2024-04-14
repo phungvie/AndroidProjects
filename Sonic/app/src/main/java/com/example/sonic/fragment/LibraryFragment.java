@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -69,7 +67,7 @@ public class LibraryFragment extends Fragment {
 //
 
         data = new ArrayList<>();
-        myAdapterListViewLib = new MyAdapterListViewLib(activity, R.layout.layout_item, data);
+        myAdapterListViewLib = new MyAdapterListViewLib(activity, R.layout.item_lib, data);
         mListView.setAdapter(myAdapterListViewLib);
 
 //
@@ -99,7 +97,6 @@ public class LibraryFragment extends Fragment {
 
         mIToggle.setToggle(this);
 
-        Toast.makeText(getContext(), "viet onCreateView", Toast.LENGTH_SHORT).show();
 
         return mView;
 
